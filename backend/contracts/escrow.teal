@@ -1,0 +1,93 @@
+// Escrow smart contract for disaster relief donations
+#pragma version 8
+
+// On application creation
+txn ApplicationID
+int 0
+==
+bnz app_create
+
+// On application call
+txn OnCompletion
+int NoOp
+==
+bnz app_call
+
+// Reject other transactions
+int 0
+return
+
+// Application creation - initialize the contract
+app_create:
+  // Initialize approval status to 0 (not approved)
+  int 0
+  byte "approval_status"
+  app_global_put
+  
+  // Store NGO address from first argument
+  txna ApplicationArgs 0
+  byte "ngo_address"
+  app_global_put
+  
+  int 1
+  return
+
+// Handle application calls
+app_call:
+  // Check which method is being called
+  txna ApplicationArgs 0
+  byte "approve"
+  ==
+  bnz handle_approve
+  
+  txna ApplicationArgs 0
+  byte "donate"
+  ==
+  bnz handle_donate
+  
+  int 0
+  return
+
+// Handle donation transactions
+handle_donate:
+  // Anyone can donate - approve the payment
+  int 1
+  return
+
+// Handle approval by NGO
+handle_approve:
+  // Check if sender is the NGO
+  txn Sender
+  byte "ngo_address"
+  app_global_get
+  ==
+  bz reject
+  
+  // Set approval status to approved
+  int 1
+  byte "approval_status"
+  app_global_put
+  
+  // Get contract balance
+  global CurrentApplicationAddress
+  balance
+  store 0  // Store balance in slot 0
+  
+  // Create inner transaction to send funds to NGO
+  itxn_begin
+  int pay
+  itxn_field TypeEnum
+  byte "ngo_address"
+  app_global_get
+  itxn_field Receiver
+  load 0  // Load balance
+  itxn_field Amount
+  itxn_submit
+  
+  int 1
+  return
+
+// Reject transaction
+reject:
+  int 0
+  return
