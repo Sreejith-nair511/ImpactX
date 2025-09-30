@@ -1,5 +1,5 @@
 # Disaster Relief Escrow on Algorand
-
+Note the commit message is high due to the api testing 
 A minimal web application where donors can contribute funds to a disaster relief project and funds are stored in an Algorand smart contract escrow. The funds are released only when an NGO uploads proof of aid delivery.
 
 ## Features
