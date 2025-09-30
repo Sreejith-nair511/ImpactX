@@ -108,6 +108,9 @@ disaster-relief-escrow/
 
 - Integrate satellite APIs for location verification
 - Add Hyperledger for enhanced privacy features
+
+- <img width="785" height="849" alt="Screenshot 2025-09-30 114731" src="https://github.com/user-attachments/assets/9c43f850-b91b-471e-b473-c7a8c2695e33" />
+<img width="881" height="927" alt="Screenshot 2025-09-30 114745" src="https://github.com/user-attachments/assets/7b4a51a0-5035-4df3-a676-255fc3748e20" />
 <img width="922" height="898" alt="Screenshot 2025-09-30 114756" src="https://github.com/user-attachments/assets/1350dd88-90d5-4e94-a695-e0482702cec5" />
 - <img width="659" height="312" alt="Screenshot 2025-09-30 115207" src="https://github.com/user-attachments/assets/4349ff28-fd88-4f2b-82a2-88ec2ca79677" />
 
