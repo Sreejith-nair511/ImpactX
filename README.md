@@ -104,8 +104,13 @@ disaster-relief-escrow/
 - Integrate with real Algorand blockchain
 - Implement IoT oracles for automatic verification
 - Store proofs on IPFS for decentralized storage
+
+
 - Integrate satellite APIs for location verification
 - Add Hyperledger for enhanced privacy features
+<img width="922" height="898" alt="Screenshot 2025-09-30 114756" src="https://github.com/user-attachments/assets/1350dd88-90d5-4e94-a695-e0482702cec5" />
+- <img width="659" height="312" alt="Screenshot 2025-09-30 115207" src="https://github.com/user-attachments/assets/4349ff28-fd88-4f2b-82a2-88ec2ca79677" />
+
 
 ## License
 
