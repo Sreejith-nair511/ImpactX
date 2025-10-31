@@ -1,48 +1,101 @@
 import { Link, useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const Navigation = ({ darkMode, toggleDarkMode }) => {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   
-  const navItems = [
-    { path: '/', label: 'Home' },
-    { path: '/campaigns', label: 'Campaigns' },
-    { path: '/donate', label: 'Donate' },
-    { path: '/ngo', label: 'NGO Dashboard' },
-    { path: '/admin', label: 'Admin' },
-    { path: '/demo', label: 'Demo' },
-    { path: '/authtest', label: 'Auth Test' },
-    // New navigation items
-    { path: '/global-impact', label: 'Global Impact' },
-    { path: '/data-insights', label: 'Data Insights' },
-    { path: '/climate-forecast', label: 'Climate Forecast' },
-    { path: '/verification-engine', label: 'Verification' },
-    { path: '/fraud-detection', label: 'Fraud Detection' },
-    { path: '/automation', label: 'Automation' },
-    { path: '/impact-market', label: 'Impact Market' },
-    { path: '/treasury', label: 'Treasury' },
-    { path: '/proposals', label: 'Proposals' },
-    { path: '/community', label: 'Community' },
-    { path: '/volunteers', label: 'Volunteers' },
-    { path: '/academy', label: 'Academy' },
-    { path: '/events', label: 'Events' },
-    { path: '/api-playground', label: 'API Playground' },
-    { path: '/contracts', label: 'Contracts' },
-    { path: '/tools', label: 'Tools' },
-    { path: '/pipeline', label: 'Pipeline' },
-    { path: '/ledger', label: 'Ledger' },
-    { path: '/security', label: 'Security' },
-    { path: '/charter', label: 'Charter' },
-    { path: '/localization', label: 'Localization' },
-    { path: '/accessibility', label: 'Accessibility' },
-    { path: '/lab', label: 'Lab' },
-    { path: '/interoperability', label: 'Interoperability' },
-    { path: '/roadmap', label: 'Roadmap' },
-    { path: '/about', label: 'About' },
-    { path: '/careers', label: 'Careers' },
-    { path: '/press', label: 'Press' }
+  // Group navigation items by category
+  const navCategories = [
+    {
+      title: "Core",
+      items: [
+        { path: '/', label: 'Home' },
+        { path: '/campaigns', label: 'Campaigns' },
+        { path: '/donate', label: 'Donate' },
+        { path: '/ngo', label: 'NGO Dashboard' },
+        { path: '/admin', label: 'Admin' }
+      ]
+    },
+    {
+      title: "Impact Intelligence",
+      items: [
+        { path: '/global-impact', label: 'Global Impact' },
+        { path: '/data-insights', label: 'Data Insights' },
+        { path: '/climate-forecast', label: 'Climate Forecast' },
+        { path: '/verification-engine', label: 'Verification' },
+        { path: '/fraud-detection', label: 'Fraud Detection' }
+      ]
+    },
+    {
+      title: "Automation",
+      items: [
+        { path: '/automation', label: 'Automation' },
+        { path: '/impact-market', label: 'Impact Market' },
+        { path: '/treasury', label: 'Treasury' },
+        { path: '/contracts', label: 'Contracts' }
+      ]
+    },
+    {
+      title: "Governance",
+      items: [
+        { path: '/proposals', label: 'Proposals' },
+        { path: '/community', label: 'Community' },
+        { path: '/volunteers', label: 'Volunteers' }
+      ]
+    },
+    {
+      title: "Learning",
+      items: [
+        { path: '/academy', label: 'Academy' },
+        { path: '/events', label: 'Events' },
+        { path: '/api-playground', label: 'API Playground' }
+      ]
+    },
+    {
+      title: "Resources",
+      items: [
+        { path: '/tools', label: 'Tools' },
+        { path: '/pipeline', label: 'Pipeline' },
+        { path: '/ledger', label: 'Ledger' },
+        { path: '/security', label: 'Security' },
+        { path: '/charter', label: 'Charter' },
+        { path: '/localization', label: 'Localization' },
+        { path: '/accessibility', label: 'Accessibility' },
+        { path: '/lab', label: 'Lab' },
+        { path: '/interoperability', label: 'Interoperability' },
+        { path: '/roadmap', label: 'Roadmap' },
+        { path: '/about', label: 'About' },
+        { path: '/careers', label: 'Careers' },
+        { path: '/press', label: 'Press' }
+      ]
+    }
   ];
+
+  // Flatten nav items for desktop view
+  const navItems = navCategories.flatMap(category => category.items);
+
+  // Filter items based on search query
+  const filteredItems = navCategories.map(category => ({
+    ...category,
+    items: category.items.filter(item => 
+      item.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.path.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  })).filter(category => category.items.length > 0);
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isMenuOpen && !event.target.closest('.mobile-menu') && !event.target.closest('.menu-button')) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [isMenuOpen]);
 
   return (
     <nav className="bg-gradient-to-r from-blue-700 to-indigo-800 text-white shadow-lg sticky top-0 z-50">
@@ -55,7 +108,7 @@ const Navigation = ({ darkMode, toggleDarkMode }) => {
           
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1">
-            {navItems.map((item) => (
+            {navItems.slice(0, 8).map((item) => (
               <Link
                 key={item.path}
                 to={item.path}
@@ -68,6 +121,30 @@ const Navigation = ({ darkMode, toggleDarkMode }) => {
                 {item.label}
               </Link>
             ))}
+            
+            {/* More button for additional items */}
+            {navItems.length > 8 && (
+              <div className="relative group">
+                <button className="px-3 py-2 rounded-lg text-sm font-medium text-blue-100 hover:bg-blue-600 hover:text-white transition-all duration-300">
+                  More
+                </button>
+                <div className="absolute right-0 mt-2 w-64 bg-white text-blue-700 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                  <div className="py-2">
+                    {navItems.slice(8).map((item) => (
+                      <Link
+                        key={item.path}
+                        to={item.path}
+                        className={`block px-4 py-2 text-sm hover:bg-blue-100 ${
+                          location.pathname === item.path ? 'bg-blue-100 font-medium' : ''
+                        }`}
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
             
             {/* Dark mode toggle for desktop */}
             <button
@@ -116,7 +193,7 @@ const Navigation = ({ darkMode, toggleDarkMode }) => {
             
             <button 
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-white focus:outline-none p-2 rounded-lg hover:bg-blue-600 transition-colors"
+              className="menu-button text-white focus:outline-none p-2 rounded-lg hover:bg-blue-600 transition-colors"
             >
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 {isMenuOpen ? (
@@ -131,21 +208,46 @@ const Navigation = ({ darkMode, toggleDarkMode }) => {
         
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden bg-blue-600 rounded-lg mt-2 py-2 absolute left-4 right-4 shadow-xl max-h-96 overflow-y-auto">
-            {navItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                onClick={() => setIsMenuOpen(false)}
-                className={`block px-4 py-3 text-sm font-medium transition-colors ${
-                  location.pathname === item.path
-                    ? 'bg-blue-700 text-white'
-                    : 'text-blue-100 hover:bg-blue-500 hover:text-white'
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
+          <div className="mobile-menu md:hidden bg-blue-600 rounded-lg mt-2 py-2 absolute left-4 right-4 shadow-xl max-h-96 overflow-y-auto z-50">
+            {/* Search Bar */}
+            <div className="px-4 py-2">
+              <input
+                type="text"
+                placeholder="Search pages..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full px-3 py-2 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-300"
+              />
+            </div>
+            
+            {/* Navigation Categories */}
+            {filteredItems.length > 0 ? (
+              filteredItems.map((category, categoryIndex) => (
+                <div key={categoryIndex}>
+                  <div className="px-4 py-2 text-blue-200 font-medium text-sm uppercase tracking-wider">
+                    {category.title}
+                  </div>
+                  {category.items.map((item) => (
+                    <Link
+                      key={item.path}
+                      to={item.path}
+                      onClick={() => setIsMenuOpen(false)}
+                      className={`block px-4 py-3 text-sm font-medium transition-colors ${
+                        location.pathname === item.path
+                          ? 'bg-blue-700 text-white'
+                          : 'text-blue-100 hover:bg-blue-500 hover:text-white'
+                      }`}
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              ))
+            ) : (
+              <div className="px-4 py-3 text-blue-200 text-sm">
+                No pages found matching "{searchQuery}"
+              </div>
+            )}
           </div>
         )}
       </div>

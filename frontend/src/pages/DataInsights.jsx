@@ -38,11 +38,11 @@ const DataInsights = () => {
     >
       <Breadcrumbs />
       
-      <div className="mb-12 text-center">
+      <div className="mb-8 text-center">
         <motion.h1 
           initial={{ y: -20 }}
           animate={{ y: 0 }}
-          className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-indigo-700 bg-clip-text text-transparent mb-4"
+          className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-indigo-700 bg-clip-text text-transparent mb-3"
         >
           Data Insights & Analytics
         </motion.h1>
@@ -50,14 +50,14 @@ const DataInsights = () => {
           initial={{ y: -10, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.2 }}
-          className="text-gray-600 dark:text-gray-300 max-w-3xl mx-auto text-lg"
+          className="text-gray-600 dark:text-gray-300 max-w-3xl mx-auto text-base sm:text-lg"
         >
           Advanced analytics and machine learning insights driving transparent humanitarian impact.
         </motion.p>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {statsData.map((stat, index) => (
           <motion.div
             key={index}
@@ -81,7 +81,7 @@ const DataInsights = () => {
       </div>
 
       {/* Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
@@ -103,61 +103,61 @@ const DataInsights = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
-        className="bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700 mb-12"
+        className="bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-lg p-6 border border-gray-100 dark:border-gray-700 mb-8"
       >
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">AI-Powered Impact Analysis</h2>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-5">AI-Powered Impact Analysis</h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Predictive Modeling</h3>
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Predictive Modeling</h3>
+            <p className="text-gray-600 dark:text-gray-300 mb-3 text-sm">
               Our machine learning models analyze historical data to predict the most effective relief strategies for different disaster scenarios.
             </p>
             <ul className="space-y-2">
               <li className="flex items-center">
-                <svg className="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                <span className="text-gray-700 dark:text-gray-300">Disaster impact forecasting</span>
+                <span className="text-gray-700 dark:text-gray-300 text-sm">Disaster impact forecasting</span>
               </li>
               <li className="flex items-center">
-                <svg className="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                <span className="text-gray-700 dark:text-gray-300">Resource allocation optimization</span>
+                <span className="text-gray-700 dark:text-gray-300 text-sm">Resource allocation optimization</span>
               </li>
               <li className="flex items-center">
-                <svg className="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                <span className="text-gray-700 dark:text-gray-300">NGO performance prediction</span>
+                <span className="text-gray-700 dark:text-gray-300 text-sm">NGO performance prediction</span>
               </li>
             </ul>
           </div>
           
           <div>
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">Anomaly Detection</h3>
-            <p className="text-gray-600 dark:text-gray-300 mb-4">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Anomaly Detection</h3>
+            <p className="text-gray-600 dark:text-gray-300 mb-3 text-sm">
               Advanced algorithms detect inconsistencies in reporting and flag potential issues for human review.
             </p>
             <ul className="space-y-2">
               <li className="flex items-center">
-                <svg className="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                <span className="text-gray-700 dark:text-gray-300">Fraudulent claim identification</span>
+                <span className="text-gray-700 dark:text-gray-300 text-sm">Fraudulent claim identification</span>
               </li>
               <li className="flex items-center">
-                <svg className="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                <span className="text-gray-700 dark:text-gray-300">Inconsistent reporting patterns</span>
+                <span className="text-gray-700 dark:text-gray-300 text-sm">Inconsistent reporting patterns</span>
               </li>
               <li className="flex items-center">
-                <svg className="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                <span className="text-gray-700 dark:text-gray-300">Resource misallocation alerts</span>
+                <span className="text-gray-700 dark:text-gray-300 text-sm">Resource misallocation alerts</span>
               </li>
             </ul>
           </div>
@@ -169,48 +169,48 @@ const DataInsights = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6 }}
-        className="bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-lg p-8 border border-gray-100 dark:border-gray-700"
+        className="bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl shadow-lg p-6 border border-gray-100 dark:border-gray-700"
       >
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Diverse Data Sources</h2>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-5">Diverse Data Sources</h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <motion.div
             whileHover={{ y: -5 }}
-            className="p-6 bg-blue-50 dark:bg-blue-900/20 rounded-xl"
+            className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl"
           >
-            <div className="w-12 h-12 bg-blue-100 dark:bg-blue-800 rounded-lg flex items-center justify-center mb-4">
-              <svg className="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="w-10 h-10 bg-blue-100 dark:bg-blue-800 rounded-lg flex items-center justify-center mb-3">
+              <svg className="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Satellite Imagery</h3>
-            <p className="text-gray-600 dark:text-gray-300">High-resolution satellite data tracks infrastructure damage and recovery progress.</p>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Satellite Imagery</h3>
+            <p className="text-gray-600 dark:text-gray-300 text-sm">High-resolution satellite data tracks infrastructure damage and recovery progress.</p>
           </motion.div>
           
           <motion.div
             whileHover={{ y: -5 }}
-            className="p-6 bg-green-50 dark:bg-green-900/20 rounded-xl"
+            className="p-4 bg-green-50 dark:bg-green-900/20 rounded-xl"
           >
-            <div className="w-12 h-12 bg-green-100 dark:bg-green-800 rounded-lg flex items-center justify-center mb-4">
-              <svg className="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="w-10 h-10 bg-green-100 dark:bg-green-800 rounded-lg flex items-center justify-center mb-3">
+              <svg className="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
               </svg>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">IoT Sensors</h3>
-            <p className="text-gray-600 dark:text-gray-300">Ground-level sensors monitor water quality, air quality, and structural integrity.</p>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">IoT Sensors</h3>
+            <p className="text-gray-600 dark:text-gray-300 text-sm">Ground-level sensors monitor water quality, air quality, and structural integrity.</p>
           </motion.div>
           
           <motion.div
             whileHover={{ y: -5 }}
-            className="p-6 bg-purple-50 dark:bg-purple-900/20 rounded-xl"
+            className="p-4 bg-purple-50 dark:bg-purple-900/20 rounded-xl"
           >
-            <div className="w-12 h-12 bg-purple-100 dark:bg-purple-800 rounded-lg flex items-center justify-center mb-4">
-              <svg className="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="w-10 h-10 bg-purple-100 dark:bg-purple-800 rounded-lg flex items-center justify-center mb-3">
+              <svg className="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
               </svg>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Human Reports</h3>
-            <p className="text-gray-600 dark:text-gray-300">Verified NGO reports and community feedback provide qualitative insights.</p>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Human Reports</h3>
+            <p className="text-gray-600 dark:text-gray-300 text-sm">Verified NGO reports and community feedback provide qualitative insights.</p>
           </motion.div>
         </div>
       </motion.div>
