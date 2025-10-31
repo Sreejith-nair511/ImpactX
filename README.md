@@ -2,6 +2,13 @@
 
 An open-source blockchain-powered disaster relief and impact funding platform built on Algorand. The solution ensures that every donation is transparent, tamper-proof, and outcome-verified. Funds are locked in smart contract escrows and released only when verified by multi-source oracles, including NGO reports, IoT/drones, and satellite data. This approach restores donor trust, eliminates corruption, and establishes a global standard for accountable disaster aid.
 
+## Development Team
+
+This project was developed by:
+- **Goodwell Sreejith S** - Lead Developer
+- **Vasudha** - Frontend Engineer
+- **Nikhil** - Blockchain Specialist
+
 ## Problem Statement
 
 Every year, trillions of dollars are allocated to global aid, disaster relief, poverty alleviation, and climate action. However, reports from the World Bank estimate that up to 30% of this funding is lost due to corruption, mismanagement, or fraud. This leads to significant inefficiency: funds raised for schools, hospitals, or disaster survivors often never reach those in need. Opaque reporting, middlemen layers, and lack of verification worsen the issue, leading to loss of trust, wasted resources, and delayed climate or humanitarian action.
@@ -20,19 +27,34 @@ Every year, trillions of dollars are allocated to global aid, disaster relief, p
 
 We propose a blockchain-based open-source platform to ensure transparency and accountability in disaster relief and social impact funding. Using Algorand smart contracts, funds are locked in escrow and released only when independent oracles verify that relief activities have been completed. The system integrates IoT, drones, and satellite imagery to cross-verify outcomes, creating an end-to-end transparent audit trail.
 
-## Core Features
+## Enhanced Features
 
-- **Real-time Transparent Tracking**: All donations and fund flows are immutably recorded on Algorand.
-- **Verified Impact Outcomes**: Multi-source verification from NGOs, IoT sensors, drones, and satellites.
-- **Smart Contract Escrow**: Funds released only when outcome verifications pass.
-- **Donor Dashboard**: Real-time updates and APIs for open access.
-- **Secure Data Handling**: Sensitive beneficiary data protected with privacy measures.
-- **Multi-Source Oracles**: Verification from NGO field data, IoT/drones, and satellite imagery.
+We've expanded the platform with advanced intelligence features:
+
+### AI Verification & Analytics
+- **Global Impact Dashboard**: Real-time visualization of humanitarian impact across the globe
+- **Data Insights & Analytics**: Advanced analytics and machine learning insights
+- **Climate Forecast**: AI-powered climate predictions for proactive disaster preparation
+- **Verification Engine**: Multi-layer AI verification process for complete transparency
+- **Fraud Detection**: Advanced fraud detection and prevention systems
+
+### Automation & Marketplace
+- **Intelligent Automation**: Streamlined operations through intelligent automation
+- **Impact Token Marketplace**: Trade impact tokens representing verified humanitarian achievements
+- **Decentralized Treasury**: Transparent, community-governed fund management
+- **Community Proposals**: Democratic decision-making for fund allocation
+- **Volunteer Opportunities**: Platform for volunteers to contribute skills and time
+
+### Education & Community
+- **Impact Academy**: Courses on humanitarian innovation and blockchain technology
+- **Global Events**: Conferences, workshops, and community gatherings
+- **API Playground**: Tools for developers to build on the platform
+- **Smart Contracts**: Transparent, blockchain-verified agreements
 
 ## Technology Stack
 
 - **Blockchain**: Algorand (public ledger) with TEAL smart contracts
-- **Frontend**: React.js + Vite + Tailwind CSS
+- **Frontend**: React.js + Vite + Tailwind CSS + Framer Motion
 - **Backend**: Node.js/Express with REST API
 - **Storage**: IPFS for proof documents with on-chain hashes
 - **Oracles**: Multi-source verification (NGO reports, IoT/drones, satellite imagery)
@@ -194,7 +216,6 @@ For more detailed information about the implementation and deployment of this sy
 - [Project Structure](PROJECT-STRUCTURE.md) - Detailed overview of the project architecture
 - [Developer Documentation](README-dev.md) - Technical documentation for developers
 - [Architecture Diagram](architecture.md) - Visual representation of the system architecture
-
 
 ## License
 

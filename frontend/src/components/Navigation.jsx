@@ -1,10 +1,12 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { useThemePreferences } from '../hooks/usePreferences';
 
 const Navigation = ({ darkMode, toggleDarkMode }) => {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const { theme, updateTheme } = useThemePreferences();
   
   // Group navigation items by category
   const navCategories = [
@@ -12,7 +14,8 @@ const Navigation = ({ darkMode, toggleDarkMode }) => {
       title: "Core",
       items: [
         { path: '/', label: 'Home' },
-        { path: '/campaigns', label: 'Campaigns' },
+        { path: '/projects', label: 'Projects' },
+        { path: '/impact-stories', label: 'Impact Stories' },
         { path: '/donate', label: 'Donate' },
         { path: '/ngo', label: 'NGO Dashboard' },
         { path: '/admin', label: 'Admin' }
@@ -23,6 +26,8 @@ const Navigation = ({ darkMode, toggleDarkMode }) => {
       items: [
         { path: '/global-impact', label: 'Global Impact' },
         { path: '/data-insights', label: 'Data Insights' },
+        { path: '/analytics', label: 'Analytics Dashboard' },
+        { path: '/analytics/detailed', label: 'Detailed Analytics' },
         { path: '/climate-forecast', label: 'Climate Forecast' },
         { path: '/verification-engine', label: 'Verification' },
         { path: '/fraud-detection', label: 'Fraud Detection' }
@@ -66,6 +71,8 @@ const Navigation = ({ darkMode, toggleDarkMode }) => {
         { path: '/lab', label: 'Lab' },
         { path: '/interoperability', label: 'Interoperability' },
         { path: '/roadmap', label: 'Roadmap' },
+        { path: '/settings', label: 'Settings' },
+        { path: '/profile', label: 'Profile' },
         { path: '/about', label: 'About' },
         { path: '/careers', label: 'Careers' },
         { path: '/press', label: 'Press' }

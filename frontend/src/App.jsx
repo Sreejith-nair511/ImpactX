@@ -38,6 +38,13 @@ import Roadmap from './pages/Roadmap';
 import About from './pages/About';
 import Careers from './pages/Careers';
 import Press from './pages/Press';
+import AnalyticsDashboard from './pages/AnalyticsDashboard';
+import DetailedAnalytics from './pages/DetailedAnalytics';
+import UserSettings from './pages/UserSettings';
+import UserProfilePage from './pages/UserProfile';
+import UserProfile from './components/ui/UserProfile';
+import Projects from './pages/Projects';
+import ImpactStories from './pages/ImpactStories';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -70,7 +77,17 @@ function App() {
   return (
     <Router>
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
-        <Navigation darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+        <header className="bg-gradient-to-r from-blue-700 to-indigo-800 text-white shadow-lg">
+          <div className="container mx-auto px-4">
+            <div className="flex justify-between items-center h-16">
+              <Navigation darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+              
+              <div className="flex items-center space-x-4">
+                <UserProfile />
+              </div>
+            </div>
+          </div>
+        </header>
         
         <main className="container mx-auto px-4 py-8">
           <Routes>
@@ -111,6 +128,12 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/careers" element={<Careers />} />
             <Route path="/press" element={<Press />} />
+            <Route path="/analytics" element={<AnalyticsDashboard />} />
+            <Route path="/analytics/detailed" element={<DetailedAnalytics />} />
+            <Route path="/settings" element={<UserSettings />} />
+            <Route path="/profile" element={<UserProfilePage />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/impact-stories" element={<ImpactStories />} />
           </Routes>
         </main>
         
@@ -168,6 +191,7 @@ function App() {
             
             <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
               <p>&copy; 2025 ImpactX. Transparent & Verifiable Disaster Relief Funding on Algorand. Made with ❤️ for India.</p>
+              <p className="mt-2 text-sm">Developed by Goodwell Sreejith S, Vasudha, and Nikhil</p>
             </div>
           </div>
         </footer>

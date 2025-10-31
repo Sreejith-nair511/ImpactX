@@ -23,6 +23,11 @@ Welcome to the ImpactX documentation. This documentation covers all aspects of t
 - [Technology Stack](../../README.md#technology-stack) - Technologies used in the platform
 - [Database Schema](../../backend/prisma/schema.prisma) - Database structure and relationships
 - [Smart Contracts](../../backend/algorand/contracts/) - TEAL smart contract documentation
+- [UI Components](UI_COMPONENTS.md) - Reusable UI components
+- [Hooks](HOOKS.md) - Custom React hooks
+- [Services](SERVICES.md) - Service modules
+- [Utilities](UTILITIES.md) - Utility functions
+- [Testing](TESTING.md) - Testing guide
 
 ## API Reference
 
@@ -88,6 +93,12 @@ Smart contracts are written in TEAL:
 - Contracts are located in `backend/algorand/contracts/`
 - Deployment scripts are in `backend/algorand/scripts/`
 - Tests are in `backend/algorand/test/`
+
+## Testing
+
+- [Testing Guide](TESTING.md) - How to run and write tests
+- Unit tests are located in `__tests__` directories
+- End-to-end tests are in `cypress/`
 
 ## Deployment
 
