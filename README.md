@@ -1,5 +1,9 @@
 # Transparent & Verifiable Disaster Relief Funding on Algorand
 
+logo 
+<h1><img width="1024" height="904" alt="logo" src="https://github.com/user-attachments/assets/cc33fef5-3dc9-4427-a709-8e0f7599ddf6" />
+</h1>
+
 An open-source blockchain-powered disaster relief and impact funding platform built on Algorand. The solution ensures that every donation is transparent, tamper-proof, and outcome-verified. Funds are locked in smart contract escrows and released only when verified by multi-source oracles, including NGO reports, IoT/drones, and satellite data. This approach restores donor trust, eliminates corruption, and establishes a global standard for accountable disaster aid.
 
 ## Development Team
