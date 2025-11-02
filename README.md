@@ -1,4 +1,8 @@
-# Transparent & Verifiable Disaster Relief Funding on Algorand
+# Transparent & Verifiable Disaster Relief Funding on Algorand # portal 2 
+
+logo 
+<h1><img width="1024" height="904" alt="logo" src="https://github.com/user-attachments/assets/cc33fef5-3dc9-4427-a709-8e0f7599ddf6" />
+</h1>
 
 An open-source blockchain-powered disaster relief and impact funding platform built on Algorand. The solution ensures that every donation is transparent, tamper-proof, and outcome-verified. Funds are locked in smart contract escrows and released only when verified by multi-source oracles, including NGO reports, IoT/drones, and satellite data. This approach restores donor trust, eliminates corruption, and establishes a global standard for accountable disaster aid.
 
@@ -216,6 +220,22 @@ For more detailed information about the implementation and deployment of this sy
 - [Project Structure](PROJECT-STRUCTURE.md) - Detailed overview of the project architecture
 - [Developer Documentation](README-dev.md) - Technical documentation for developers
 - [Architecture Diagram](architecture.md) - Visual representation of the system architecture
+
+Image 
+<img width="1760" height="860" alt="Screenshot 2025-11-01 103651" src="https://github.com/user-attachments/assets/bd157892-f404-412f-80e9-759818cdf246" />
+<img width="1673" height="929" alt="Screenshot 2025-11-01 103724" src="https://github.com/user-attachments/assets/30c5988a-ae16-4729-8ac5-b026142aade4" />
+<img width="1693" height="887" alt="Screenshot 2025-11-01 103705" src="https://github.com/user-attachments/assets/3b4e435f-52aa-44c9-9ad6-280a0ae3a68d" />
+<img width="1760" height="860" alt="Screenshot 2025-11-01 103651" src="https://github.com/user-attachments/assets/378a97dc-02c7-4595-9742-04a7ea59941b" />
+<img width="1748" height="828" alt="Screenshot 2025-11-01 103936" src="https://github.com/user-attachments/assets/b821987c-fa58-49e8-94b5-f0e415d5ec81" />
+<img width="1585" height="407" alt="Screenshot 2025-11-01 103924" src="https://github.com/user-attachments/assets/21df0664-b257-499a-a116-f5fd47cac9f2" />
+<img width="1713" height="932" alt="Screenshot 2025-11-01 103912" src="https://github.com/user-attachments/assets/910a2c49-841c-4a20-959f-71e166baf5e3" />
+<img width="1723" height="830" alt="Screenshot 2025-11-01 103855" src="https://github.com/user-attachments/assets/68ae1313-b387-41bc-8e02-dc9389c78812" />
+<img width="1667" height="897" alt="Screenshot 2025-11-01 103835" src="https://github.com/user-attachments/assets/47a184be-f61a-4903-9bdf-36aa9db0d44a" />
+<img width="1403" height="939" alt="Screenshot 2025-11-01 103819" src="https://github.com/user-attachments/assets/43d3370b-0747-451e-85cf-ec99c0b547f2" />
+<img width="1663" height="892" alt="Screenshot 2025-11-01 103802" src="https://github.com/user-attachments/assets/5a0b69a7-d280-4db3-8437-daae08b30987" />
+<img width="1643" height="698" alt="Screenshot 2025-11-01 103752" src="https://github.com/user-attachments/assets/0cc95f28-d2f3-4a39-809f-176b5faad6b6" />
+<img width="1617" height="691" alt="Screenshot 2025-11-01 103738" src="https://github.com/user-attachments/assets/f35b1b6d-28ce-477a-9f51-5f0c8454d5c4" />
+
 
 ## License
 
