@@ -18,7 +18,14 @@ const Navigation = ({ darkMode, toggleDarkMode }) => {
         { path: '/impact-stories', label: 'Impact Stories' },
         { path: '/donate', label: 'Donate' },
         { path: '/ngo', label: 'NGO Dashboard' },
-        { path: '/admin', label: 'Admin' }
+        { path: '/admin', label: 'Admin' },
+        { path: '/collaboration', label: 'Collaboration Hub' },
+        { path: '/search', label: 'Search' },
+        { path: '/metrics', label: 'Metrics' },
+        { path: '/goals', label: 'Goals' },
+        { path: '/kanban', label: 'Kanban Board' },
+        { path: '/project-roadmap', label: 'Project Roadmap' },
+        { path: '/file-sharing', label: 'File Sharing' }
       ]
     },
     {

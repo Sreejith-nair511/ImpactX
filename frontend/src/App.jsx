@@ -45,6 +45,22 @@ import UserProfilePage from './pages/UserProfile';
 import UserProfile from './components/ui/UserProfile';
 import Projects from './pages/Projects';
 import ImpactStories from './pages/ImpactStories';
+// Collaboration Hub
+import CollaborationHub from './pages/CollaborationHub';
+// Global Search
+import GlobalSearch from './pages/GlobalSearch';
+// User Activity Profile
+import UserActivityProfile from './pages/UserActivityProfile';
+// Metrics Dashboard
+import MetricsDashboardPage from './pages/MetricsDashboard';
+// Goal Tracking
+import GoalTrackingPage from './pages/GoalTracking';
+// Kanban Board
+import KanbanBoardPage from './pages/KanbanBoardPage';
+// Project Roadmap
+import ProjectRoadmapPage from './pages/ProjectRoadmapPage';
+// File Sharing
+import FileSharingPage from './pages/FileSharingPage';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -132,8 +148,23 @@ function App() {
             <Route path="/analytics/detailed" element={<DetailedAnalytics />} />
             <Route path="/settings" element={<UserSettings />} />
             <Route path="/profile" element={<UserProfilePage />} />
+            <Route path="/profile/activity" element={<UserActivityProfile />} />
             <Route path="/projects" element={<Projects />} />
             <Route path="/impact-stories" element={<ImpactStories />} />
+            {/* Collaboration Hub */}
+            <Route path="/collaboration" element={<CollaborationHub />} />
+            {/* Global Search */}
+            <Route path="/search" element={<GlobalSearch />} />
+            {/* Metrics Dashboard */}
+            <Route path="/metrics" element={<MetricsDashboardPage />} />
+            {/* Goal Tracking */}
+            <Route path="/goals" element={<GoalTrackingPage />} />
+            {/* Kanban Board */}
+            <Route path="/kanban" element={<KanbanBoardPage />} />
+            {/* Project Roadmap */}
+            <Route path="/project-roadmap" element={<ProjectRoadmapPage />} />
+            {/* File Sharing */}
+            <Route path="/file-sharing" element={<FileSharingPage />} />
           </Routes>
         </main>
         
