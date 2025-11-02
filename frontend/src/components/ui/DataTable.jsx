@@ -1,6 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronDownIcon, ChevronUpIcon, ArrowsUpDownIcon } from '@heroicons/react/24/outline';
+import { 
+  ChevronDownIcon, 
+  ChevronUpIcon, 
+  ArrowsUpDownIcon,
+  FunnelIcon,
+  ArrowDownTrayIcon
+} from '@heroicons/react/24/outline';
 
 const DataTable = ({ 
   data, 
@@ -8,33 +14,49 @@ const DataTable = ({
   searchable = false, 
   sortable = true, 
   pagination = true, 
-  rowsPerPage = 10 
+  rowsPerPage = 10,
+  exportable = false
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
   const [currentPage, setCurrentPage] = useState(1);
+  const [columnFilters, setColumnFilters] = useState({});
 
-  // Filter data based on search term
-  const filteredData = searchable
-    ? data.filter(row =>
-        columns.some(column =>
-          row[column.key]?.toString().toLowerCase().includes(searchTerm.toLowerCase())
-        )
-      )
-    : data;
+  // Filter data based on search term and column filters
+  const filteredData = useMemo(() => {
+    return data.filter(row => {
+      // Apply search filter
+      const matchesSearch = searchable
+        ? columns.some(column =>
+            row[column.key]?.toString().toLowerCase().includes(searchTerm.toLowerCase())
+          )
+        : true;
+      
+      // Apply column filters
+      const matchesColumnFilters = Object.keys(columnFilters).every(key => {
+        if (!columnFilters[key]) return true;
+        const value = row[key]?.toString().toLowerCase();
+        return value?.includes(columnFilters[key].toLowerCase());
+      });
+      
+      return matchesSearch && matchesColumnFilters;
+    });
+  }, [data, columns, searchTerm, columnFilters, searchable]);
 
   // Sort data
-  const sortedData = sortable && sortConfig.key
-    ? [...filteredData].sort((a, b) => {
-        if (a[sortConfig.key] < b[sortConfig.key]) {
-          return sortConfig.direction === 'asc' ? -1 : 1;
-        }
-        if (a[sortConfig.key] > b[sortConfig.key]) {
-          return sortConfig.direction === 'asc' ? 1 : -1;
-        }
-        return 0;
-      })
-    : filteredData;
+  const sortedData = useMemo(() => {
+    if (!sortable || !sortConfig.key) return filteredData;
+    
+    return [...filteredData].sort((a, b) => {
+      if (a[sortConfig.key] < b[sortConfig.key]) {
+        return sortConfig.direction === 'asc' ? -1 : 1;
+      }
+      if (a[sortConfig.key] > b[sortConfig.key]) {
+        return sortConfig.direction === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
+  }, [filteredData, sortable, sortConfig]);
 
   // Paginate data
   const totalPages = Math.ceil(sortedData.length / rowsPerPage);
@@ -59,6 +81,13 @@ const DataTable = ({
     setCurrentPage(Math.max(1, Math.min(page, totalPages)));
   };
 
+  const handleColumnFilter = (key, value) => {
+    setColumnFilters(prev => ({
+      ...prev,
+      [key]: value
+    }));
+  };
+
   const getSortIcon = (columnKey) => {
     if (!sortConfig.key || sortConfig.key !== columnKey) {
       return <ArrowsUpDownIcon className="w-4 h-4 ml-1" />;
@@ -68,20 +97,80 @@ const DataTable = ({
       : <ChevronDownIcon className="w-4 h-4 ml-1" />;
   };
 
+  // Export data to CSV
+  const exportToCSV = () => {
+    if (!exportable || sortedData.length === 0) return;
+    
+    const headers = columns.map(col => col.label).join(',');
+    const rows = sortedData.map(row => 
+      columns.map(col => {
+        const value = row[col.key];
+        // Escape commas and quotes in values
+        if (typeof value === 'string' && (value.includes(',') || value.includes('"'))) {
+          return `"${value.replace(/"/g, '""')}"`;
+        }
+        return value;
+      }).join(',')
+    );
+    
+    const csvContent = [headers, ...rows].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'data-export.csv');
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="bg-gray-800 rounded-xl shadow-lg overflow-hidden">
-      {/* Search Bar */}
-      {searchable && (
-        <div className="p-4 border-b border-gray-700">
-          <input
-            type="text"
-            placeholder="Search..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          />
+      {/* Toolbar */}
+      <div className="flex justify-between items-center p-4 border-b border-gray-700">
+        {/* Search Bar */}
+        {searchable && (
+          <div className="flex-1 max-w-md">
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            />
+          </div>
+        )}
+        
+        {/* Export Button */}
+        {exportable && (
+          <button
+            onClick={exportToCSV}
+            className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+          >
+            <ArrowDownTrayIcon className="w-4 h-4 mr-2" />
+            Export CSV
+          </button>
+        )}
+      </div>
+
+      {/* Column Filters */}
+      <div className="border-b border-gray-700 p-2 bg-gray-750">
+        <div className="flex flex-wrap gap-2">
+          {columns.map(column => (
+            <div key={`filter-${column.key}`} className="flex items-center">
+              <FunnelIcon className="w-4 h-4 text-gray-400 mr-1" />
+              <input
+                type="text"
+                placeholder={column.label}
+                value={columnFilters[column.key] || ''}
+                onChange={(e) => handleColumnFilter(column.key, e.target.value)}
+                className="px-2 py-1 bg-gray-700 text-white rounded text-xs focus:outline-none focus:ring-1 focus:ring-indigo-500"
+              />
+            </div>
+          ))}
         </div>
-      )}
+      </div>
 
       {/* Table */}
       <div className="overflow-x-auto">
