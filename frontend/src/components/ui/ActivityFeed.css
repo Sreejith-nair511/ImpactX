@@ -1,0 +1,220 @@
+.activity-feed {
+  background: var(--background-card);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.activity-feed__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.activity-feed__header h3 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.activity-feed__filters {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.activity-feed__filters select {
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 14px;
+  background: white;
+  color: var(--text-primary);
+}
+
+.activity-feed__filters select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.activity-feed__loading,
+.activity-feed__error,
+.activity-feed__empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-secondary);
+}
+
+.activity-feed__error {
+  color: var(--error-color);
+}
+
+.activity-feed__list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.activity-item {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: white;
+  transition: box-shadow 0.2s ease;
+}
+
+.activity-item:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.activity-item__icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--background-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-color);
+}
+
+.activity-item__content {
+  flex: 1;
+}
+
+.activity-item__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.activity-item__header h4 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.activity-item__time {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+}
+
+.activity-item__description {
+  margin: 0 0 12px 0;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.activity-item__meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.activity-item__type,
+.activity-item__user {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 12px;
+}
+
+.activity-item__type {
+  background: var(--background-light);
+  color: var(--text-secondary);
+}
+
+.activity-item__user {
+  background: var(--background-hover);
+  color: var(--text-secondary);
+}
+
+.activity-item__user svg {
+  flex-shrink: 0;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .activity-feed {
+    padding: 16px;
+  }
+  
+  .activity-feed__header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .activity-feed__filters {
+    justify-content: flex-end;
+  }
+  
+  .activity-item {
+    gap: 12px;
+    padding: 12px;
+  }
+  
+  .activity-item__icon {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .activity-item__header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .activity-item__time {
+    order: -1;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .activity-feed {
+    background: var(--background-card-dark);
+    border-color: var(--border-color-dark);
+  }
+  
+  .activity-feed__filters select {
+    background: var(--background-input-dark);
+    border-color: var(--border-color-dark);
+    color: var(--text-primary-dark);
+  }
+  
+  .activity-item {
+    background: var(--background-input-dark);
+    border-color: var(--border-color-dark);
+  }
+  
+  .activity-item:hover {
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
+  }
+  
+  .activity-item__icon {
+    background: var(--background-light-dark);
+  }
+  
+  .activity-item__type {
+    background: var(--background-light-dark);
+  }
+  
+  .activity-item__user {
+    background: var(--background-hover-dark);
+  }
+}

@@ -1,176 +1,179 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import * as notificationService from '../services/notificationService';
 
 /**
  * Custom hook for managing user notifications
- * @param {Array} initialNotifications - Initial notifications array
- * @returns {object} Notification management functions and state
+ * @param {string} userId - The ID of the user
+ * @param {Object} options - Configuration options
+ * @returns {Object} Notification state and actions
  */
-export const useNotifications = (initialNotifications = []) => {
-  const [notifications, setNotifications] = useState(initialNotifications);
-  const [unreadCount, setUnreadCount] = useState(
-    initialNotifications.filter(n => !n.read).length
-  );
-
-  // Update unread count when notifications change
-  useEffect(() => {
-    setUnreadCount(notifications.filter(n => !n.read).length);
-  }, [notifications]);
-
-  /**
-   * Add a new notification
-   * @param {object} notification - Notification object
-   */
-  const addNotification = (notification) => {
-    const newNotification = {
-      id: Date.now(),
-      timestamp: new Date().toISOString(),
-      read: false,
-      ...notification
-    };
+export const useNotifications = (userId, options = {}) => {
+  const [notifications, setNotifications] = useState([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [preferences, setPreferences] = useState({});
+  
+  // Fetch notifications
+  const fetchNotifications = useCallback(async (fetchOptions = {}) => {
+    if (!userId) return;
     
-    setNotifications(prev => [newNotification, ...prev]);
-  };
-
-  /**
-   * Mark a notification as read
-   * @param {number} id - Notification ID
-   */
-  const markAsRead = (id) => {
-    setNotifications(prev => 
-      prev.map(n => n.id === id ? { ...n, read: true } : n)
-    );
-  };
-
-  /**
-   * Mark all notifications as read
-   */
-  const markAllAsRead = () => {
-    setNotifications(prev => 
-      prev.map(n => ({ ...n, read: true }))
-    );
-  };
-
-  /**
-   * Remove a notification
-   * @param {number} id - Notification ID
-   */
-  const removeNotification = (id) => {
-    setNotifications(prev => prev.filter(n => n.id !== id));
-  };
-
-  /**
-   * Clear all notifications
-   */
-  const clearAll = () => {
-    setNotifications([]);
-  };
-
-  /**
-   * Get unread notifications
-   * @returns {Array} Unread notifications
-   */
-  const getUnreadNotifications = () => {
-    return notifications.filter(n => !n.read);
-  };
-
-  /**
-   * Get read notifications
-   * @returns {Array} Read notifications
-   */
-  const getReadNotifications = () => {
-    return notifications.filter(n => n.read);
-  };
-
-  return {
-    notifications,
-    unreadCount,
-    addNotification,
-    markAsRead,
-    markAllAsRead,
-    removeNotification,
-    clearAll,
-    getUnreadNotifications,
-    getReadNotifications
-  };
-};
-
-/**
- * Custom hook for handling notification permissions
- * @returns {object} Permission status and request function
- */
-export const useNotificationPermission = () => {
-  const [permission, setPermission] = useState('default');
-
-  useEffect(() => {
-    if ('Notification' in window) {
-      setPermission(Notification.permission);
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const data = await notificationService.getUserNotifications(userId, fetchOptions);
+      setNotifications(data.notifications || data);
+    } catch (err) {
+      setError(err.message || 'Failed to fetch notifications');
+      console.error('Error fetching notifications:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, [userId]);
+  
+  // Fetch unread count
+  const fetchUnreadCount = useCallback(async () => {
+    if (!userId) return;
+    
+    try {
+      const count = await notificationService.getUnreadNotificationCount(userId);
+      setUnreadCount(count);
+    } catch (err) {
+      console.error('Error fetching unread count:', err);
+    }
+  }, [userId]);
+  
+  // Mark notification as read
+  const markAsRead = useCallback(async (notificationId) => {
+    try {
+      await notificationService.markNotificationAsRead(notificationId);
+      
+      // Update local state
+      setNotifications(prev => 
+        prev.map(notification => 
+          notification.id === notificationId 
+            ? { ...notification, read: true } 
+            : notification
+        )
+      );
+      
+      // Update unread count
+      setUnreadCount(prev => Math.max(0, prev - 1));
+    } catch (err) {
+      console.error('Error marking notification as read:', err);
     }
   }, []);
-
-  const requestPermission = async () => {
-    if (!('Notification' in window)) {
-      console.warn('This browser does not support desktop notification');
-      return 'denied';
-    }
-
-    if (permission === 'granted') {
-      return 'granted';
-    }
-
+  
+  // Mark all notifications as read
+  const markAllAsRead = useCallback(async () => {
     try {
-      const result = await Notification.requestPermission();
-      setPermission(result);
-      return result;
-    } catch (error) {
-      console.error('Error requesting notification permission:', error);
-      return 'denied';
+      await notificationService.markAllNotificationsAsRead(userId);
+      
+      // Update local state
+      setNotifications(prev => 
+        prev.map(notification => ({ ...notification, read: true }))
+      );
+      
+      setUnreadCount(0);
+    } catch (err) {
+      console.error('Error marking all notifications as read:', err);
     }
-  };
-
-  return {
-    permission,
-    requestPermission,
-    isSupported: 'Notification' in window
-  };
-};
-
-/**
- * Custom hook for showing browser notifications
- * @param {boolean} enabled - Whether notifications are enabled
- * @returns {object} Show notification function
- */
-export const useBrowserNotifications = (enabled = true) => {
-  const { permission, requestPermission } = useNotificationPermission();
-
-  const showNotification = async (title, options = {}) => {
-    if (!enabled) return;
+  }, [userId]);
+  
+  // Delete notification
+  const deleteNotification = useCallback(async (notificationId) => {
+    try {
+      await notificationService.deleteNotification(notificationId);
+      
+      // Update local state
+      setNotifications(prev => 
+        prev.filter(notification => notification.id !== notificationId)
+      );
+      
+      // Update unread count if the deleted notification was unread
+      const notification = notifications.find(n => n.id === notificationId);
+      if (notification && !notification.read) {
+        setUnreadCount(prev => Math.max(0, prev - 1));
+      }
+    } catch (err) {
+      console.error('Error deleting notification:', err);
+    }
+  }, [notifications]);
+  
+  // Fetch notification preferences
+  const fetchPreferences = useCallback(async () => {
+    if (!userId) return;
     
-    if (permission !== 'granted') {
-      const result = await requestPermission();
-      if (result !== 'granted') return;
+    try {
+      const prefs = await notificationService.getNotificationPreferences(userId);
+      setPreferences(prefs);
+    } catch (err) {
+      console.error('Error fetching notification preferences:', err);
     }
-
-    // Show browser notification
-    if ('Notification' in window && permission === 'granted') {
-      new Notification(title, {
-        body: options.body || '',
-        icon: options.icon || '',
-        ...options
-      });
+  }, [userId]);
+  
+  // Update notification preferences
+  const updatePreferences = useCallback(async (newPreferences) => {
+    try {
+      const updatedPrefs = await notificationService.updateNotificationPreferences(userId, newPreferences);
+      setPreferences(updatedPrefs);
+    } catch (err) {
+      console.error('Error updating notification preferences:', err);
+      throw err;
     }
-
-    // Also add to in-app notifications if callback provided
-    if (options.onAddToApp) {
-      options.onAddToApp({
-        title,
-        ...options
-      });
+  }, [userId]);
+  
+  // Create a new notification
+  const createNotification = useCallback(async (notificationData) => {
+    try {
+      const newNotification = await notificationService.createNotification(notificationData);
+      setNotifications(prev => [newNotification, ...prev]);
+      return newNotification;
+    } catch (err) {
+      console.error('Error creating notification:', err);
+      throw err;
     }
-  };
-
+  }, []);
+  
+  // Subscribe to real-time notifications
+  useEffect(() => {
+    if (!userId) return;
+    
+    // Fetch initial data
+    fetchNotifications(options);
+    fetchUnreadCount();
+    fetchPreferences();
+    
+    // Set up real-time subscription
+    const unsubscribe = notificationService.subscribeToNotifications(userId, (newNotifications) => {
+      setNotifications(prev => [...newNotifications, ...prev]);
+      setUnreadCount(prev => prev + newNotifications.length);
+    });
+    
+    // Cleanup subscription
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
+  }, [userId, fetchNotifications, fetchUnreadCount, fetchPreferences]);
+  
   return {
-    showNotification,
-    permission,
-    requestPermission
+    // State
+    notifications,
+    unreadCount,
+    loading,
+    error,
+    preferences,
+    
+    // Actions
+    fetchNotifications,
+    markAsRead,
+    markAllAsRead,
+    deleteNotification,
+    fetchPreferences,
+    updatePreferences,
+    createNotification
   };
 };
+
+export default useNotifications;

@@ -1,0 +1,435 @@
+.project-roadmap {
+  background: var(--background-card);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.roadmap-header {
+  margin-bottom: 24px;
+}
+
+.roadmap-header h3 {
+  margin: 0 0 16px 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.roadmap-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 6px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  background: white;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+  background: var(--background-hover);
+  border-color: var(--border-color-hover);
+}
+
+.filter-btn.active {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.roadmap-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.nav-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+}
+
+.nav-btn:hover:not(:disabled) {
+  background: var(--background-hover);
+  color: var(--text-primary);
+}
+
+.nav-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.phase-indicator {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.roadmap-phase {
+  margin-bottom: 24px;
+}
+
+.phase-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  background: white;
+  border: 1px solid var(--border-color);
+}
+
+.phase-header.status-completed {
+  border-color: var(--success-color);
+}
+
+.phase-header.status-in-progress {
+  border-color: var(--warning-color);
+}
+
+.phase-header.status-upcoming {
+  border-color: var(--info-color);
+}
+
+.phase-header.status-delayed {
+  border-color: var(--error-color);
+}
+
+.phase-icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--background-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-color);
+}
+
+.phase-info {
+  flex: 1;
+}
+
+.phase-info h4 {
+  margin: 0 0 8px 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.phase-info p {
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.phase-status {
+  flex-shrink: 0;
+}
+
+.status-badge {
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.status-completed {
+  background: var(--success-color-light);
+  color: var(--success-color);
+}
+
+.status-in-progress {
+  background: var(--warning-color-light);
+  color: var(--warning-color);
+}
+
+.status-upcoming {
+  background: var(--info-color-light);
+  color: var(--info-color);
+}
+
+.status-delayed {
+  background: var(--error-color-light);
+  color: var(--error-color);
+}
+
+.phase-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+}
+
+.phase-dates {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.date-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.date-item svg {
+  flex-shrink: 0;
+  color: var(--text-tertiary);
+}
+
+.date-label {
+  display: block;
+  font-size: 12px;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.date-value {
+  display: block;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.phase-milestones h5,
+.phase-team h5 {
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.milestones-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.milestone-item {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: white;
+}
+
+.milestone-icon {
+  flex-shrink: 0;
+  color: var(--text-tertiary);
+  margin-top: 2px;
+}
+
+.milestone-content {
+  flex: 1;
+}
+
+.milestone-content h6 {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.milestone-content p {
+  margin: 0 0 12px 0;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.milestone-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.milestone-date {
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+
+.milestone-status {
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+.team-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.team-member {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.member-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.member-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.member-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.member-role {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.roadmap-overview {
+  background: var(--background-light);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.roadmap-overview h5 {
+  margin: 0 0 16px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.overview-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 16px;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-value {
+  display: block;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--primary-color);
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.roadmap-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-secondary);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .project-roadmap {
+    padding: 16px;
+  }
+  
+  .roadmap-header h3 {
+    font-size: 20px;
+  }
+  
+  .roadmap-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .filter-buttons {
+    justify-content: center;
+  }
+  
+  .phase-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .phase-details {
+    grid-template-columns: 1fr;
+  }
+  
+  .overview-stats {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .project-roadmap {
+    background: var(--background-card-dark);
+    border-color: var(--border-color-dark);
+  }
+  
+  .phase-header {
+    background: var(--background-input-dark);
+    border-color: var(--border-color-dark);
+  }
+  
+  .milestone-item {
+    background: var(--background-input-dark);
+    border-color: var(--border-color-dark);
+  }
+  
+  .roadmap-overview {
+    background: var(--background-light-dark);
+  }
+  
+  .filter-btn {
+    background: var(--background-input-dark);
+    border-color: var(--border-color-dark);
+    color: var(--text-primary-dark);
+  }
+  
+  .filter-btn:hover {
+    background: var(--background-hover-dark);
+  }
+  
+  .filter-btn.active {
+    color: white;
+  }
+}

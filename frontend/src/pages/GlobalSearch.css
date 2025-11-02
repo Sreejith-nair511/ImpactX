@@ -1,0 +1,242 @@
+.global-search {
+  padding: 20px 0;
+}
+
+.search-header {
+  margin-bottom: 32px;
+}
+
+.search-header h1 {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 8px 0;
+}
+
+.search-header p {
+  font-size: 18px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.search-container {
+  margin-bottom: 32px;
+}
+
+.search-filters {
+  display: flex;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.filter-tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: all 0.2s ease;
+}
+
+.filter-tab:hover {
+  color: var(--text-primary);
+  background: var(--background-hover);
+}
+
+.filter-tab.active {
+  color: var(--primary-color);
+  border-bottom-color: var(--primary-color);
+}
+
+.search-content {
+  min-height: 400px;
+}
+
+.search-error,
+.search-loading,
+.search-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-secondary);
+}
+
+.search-error {
+  color: var(--error-color);
+}
+
+.search-empty {
+  color: var(--text-tertiary);
+}
+
+.search-empty svg {
+  margin-bottom: 16px;
+  color: var(--border-color);
+}
+
+.search-empty h3 {
+  margin: 0 0 8px 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.search-empty p {
+  margin: 0;
+  font-size: 16px;
+}
+
+.search-results {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.result-section {
+  background: var(--background-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 24px;
+}
+
+.result-section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.result-section-header h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.result-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.result-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: white;
+  transition: box-shadow 0.2s ease;
+}
+
+.result-item:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.result-item-content {
+  flex: 1;
+}
+
+.result-item-content h4 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.result-item-content p {
+  margin: 0 0 8px 0;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.result-meta {
+  font-size: 14px;
+  color: var(--text-tertiary);
+}
+
+.result-item-actions {
+  margin-left: 16px;
+}
+
+.view-btn {
+  padding: 8px 16px;
+  border: 1px solid var(--primary-color);
+  border-radius: 4px;
+  background: white;
+  color: var(--primary-color);
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.view-btn:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .global-search {
+    padding: 16px 0;
+  }
+  
+  .search-header h1 {
+    font-size: 28px;
+  }
+  
+  .search-header p {
+    font-size: 16px;
+  }
+  
+  .filter-tab {
+    flex: 1;
+    justify-content: center;
+    font-size: 14px;
+  }
+  
+  .result-item {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .result-item-actions {
+    margin-left: 0;
+    align-self: flex-start;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .result-section {
+    background: var(--background-card-dark);
+    border-color: var(--border-color-dark);
+  }
+  
+  .result-item {
+    background: var(--background-input-dark);
+    border-color: var(--border-color-dark);
+  }
+  
+  .result-item:hover {
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
+  }
+  
+  .view-btn {
+    background: var(--background-input-dark);
+    border-color: var(--border-color-dark);
+    color: var(--text-primary-dark);
+  }
+  
+  .view-btn:hover {
+    background: var(--primary-color);
+    color: white;
+  }
+}
