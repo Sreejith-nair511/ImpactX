@@ -28,7 +28,8 @@ const Navigation = ({ darkMode, toggleDarkMode }) => {
         { path: '/file-sharing', label: 'File Sharing' },
         { path: '/project-insights', label: 'Project Insights' },
         { path: '/community-engagement', label: 'Community Engagement' },
-        { path: '/resource-management', label: 'Resource Management' }
+        { path: '/resource-management', label: 'Resource Management' },
+        { path: '/volunteer-management', label: 'Volunteer Management' }
       ]
     },
     {

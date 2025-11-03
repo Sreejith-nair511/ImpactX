@@ -65,6 +65,8 @@ import ProjectInsightsPage from './pages/ProjectInsightsPage';
 import CommunityEngagementPage from './pages/CommunityEngagementPage';
 // Resource Management
 import ResourceManagementPage from './pages/ResourceManagementPage';
+// Volunteer Management
+import VolunteerManagementPage from './pages/VolunteerManagementPage';
 // File Sharing
 import FileSharingPage from './pages/FileSharingPage';
 
@@ -177,6 +179,8 @@ function App() {
             <Route path="/community-engagement" element={<CommunityEngagementPage />} />
             {/* Resource Management */}
             <Route path="/resource-management" element={<ResourceManagementPage />} />
+            {/* Volunteer Management */}
+            <Route path="/volunteer-management" element={<VolunteerManagementPage />} />
           </Routes>
         </main>
         
