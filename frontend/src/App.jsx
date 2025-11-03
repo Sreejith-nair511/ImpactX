@@ -61,6 +61,8 @@ import KanbanBoardPage from './pages/KanbanBoardPage';
 import ProjectRoadmapPage from './pages/ProjectRoadmapPage';
 // Project Insights
 import ProjectInsightsPage from './pages/ProjectInsightsPage';
+// Community Engagement
+import CommunityEngagementPage from './pages/CommunityEngagementPage';
 // File Sharing
 import FileSharingPage from './pages/FileSharingPage';
 
@@ -169,6 +171,8 @@ function App() {
             <Route path="/file-sharing" element={<FileSharingPage />} />
             {/* Project Insights */}
             <Route path="/project-insights" element={<ProjectInsightsPage />} />
+            {/* Community Engagement */}
+            <Route path="/community-engagement" element={<CommunityEngagementPage />} />
           </Routes>
         </main>
         
