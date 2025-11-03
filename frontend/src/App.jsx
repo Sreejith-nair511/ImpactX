@@ -59,6 +59,8 @@ import GoalTrackingPage from './pages/GoalTracking';
 import KanbanBoardPage from './pages/KanbanBoardPage';
 // Project Roadmap
 import ProjectRoadmapPage from './pages/ProjectRoadmapPage';
+// Project Insights
+import ProjectInsightsPage from './pages/ProjectInsightsPage';
 // File Sharing
 import FileSharingPage from './pages/FileSharingPage';
 
@@ -165,6 +167,8 @@ function App() {
             <Route path="/project-roadmap" element={<ProjectRoadmapPage />} />
             {/* File Sharing */}
             <Route path="/file-sharing" element={<FileSharingPage />} />
+            {/* Project Insights */}
+            <Route path="/project-insights" element={<ProjectInsightsPage />} />
           </Routes>
         </main>
         

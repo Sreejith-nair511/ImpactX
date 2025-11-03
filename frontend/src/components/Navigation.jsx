@@ -25,7 +25,8 @@ const Navigation = ({ darkMode, toggleDarkMode }) => {
         { path: '/goals', label: 'Goals' },
         { path: '/kanban', label: 'Kanban Board' },
         { path: '/project-roadmap', label: 'Project Roadmap' },
-        { path: '/file-sharing', label: 'File Sharing' }
+        { path: '/file-sharing', label: 'File Sharing' },
+        { path: '/project-insights', label: 'Project Insights' }
       ]
     },
     {
