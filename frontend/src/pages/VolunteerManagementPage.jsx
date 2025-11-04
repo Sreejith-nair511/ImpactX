@@ -4,7 +4,7 @@ import './VolunteerManagementPage.css';
 
 /**
  * Volunteer Management Page
- * Dedicated page for managing project volunteers, roles, and assignments
+ * Dedicated page for viewing and managing project volunteers
  */
 const VolunteerManagementPage = () => {
   // Mock project ID for demonstration
@@ -14,39 +14,65 @@ const VolunteerManagementPage = () => {
     <div className="volunteer-management-page">
       <div className="page-header">
         <h1>Volunteer Management</h1>
-        <p>Coordinate and manage volunteers for your disaster relief project</p>
+        <p>Coordinate, track, and manage volunteers for your disaster relief project</p>
       </div>
       
-      <div className="management-content">
-        <div className="management-main">
+      <div className="page-content">
+        <div className="main-content">
           <VolunteerManagement projectId={projectId} />
         </div>
         
-        <div className="management-sidebar">
+        <div className="sidebar">
           <div className="sidebar-section">
-            <h3>Volunteer Spotlight</h3>
-            <div className="volunteer-spotlight">
-              <div className="spotlight-item">
-                <div className="volunteer-avatar">A</div>
-                <div className="volunteer-info">
-                  <h4>Alex Johnson</h4>
-                  <p>Project Manager</p>
-                  <div className="volunteer-stats">
-                    <span className="stat">120 hours</span>
-                    <span className="stat">5 projects</span>
-                  </div>
+            <h3>Volunteer Statistics</h3>
+            <div className="stats-grid">
+              <div className="stat-card">
+                <h4>Total Volunteers</h4>
+                <p className="stat-value">142</p>
+              </div>
+              <div className="stat-card">
+                <h4>Active This Week</h4>
+                <p className="stat-value">118</p>
+              </div>
+              <div className="stat-card">
+                <h4>New This Month</h4>
+                <p className="stat-value">24</p>
+              </div>
+              <div className="stat-card">
+                <h4>Avg. Hours/Week</h4>
+                <p className="stat-value">12.5</p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="sidebar-section">
+            <h3>Recent Activity</h3>
+            <div className="activity-list">
+              <div className="activity-item">
+                <div className="activity-icon">
+                  <Users size={16} />
+                </div>
+                <div className="activity-content">
+                  <p className="activity-text">Rajesh Kumar completed 8 hours of medical support</p>
+                  <p className="activity-time">2 hours ago</p>
                 </div>
               </div>
-              
-              <div className="spotlight-item">
-                <div className="volunteer-avatar">T</div>
-                <div className="volunteer-info">
-                  <h4>Taylor Kim</h4>
-                  <p>Medical Coordinator</p>
-                  <div className="volunteer-stats">
-                    <span className="stat">85 hours</span>
-                    <span className="stat">3 certifications</span>
-                  </div>
+              <div className="activity-item">
+                <div className="activity-icon">
+                  <Edit size={16} />
+                </div>
+                <div className="activity-content">
+                  <p className="activity-text">Priya Sharma updated availability to part-time</p>
+                  <p className="activity-time">5 hours ago</p>
+                </div>
+              </div>
+              <div className="activity-item">
+                <div className="activity-icon">
+                  <Award size={16} />
+                </div>
+                <div className="activity-content">
+                  <p className="activity-text">Amit Patel received volunteer recognition badge</p>
+                  <p className="activity-time">1 day ago</p>
                 </div>
               </div>
             </div>
@@ -55,51 +81,18 @@ const VolunteerManagementPage = () => {
           <div className="sidebar-section">
             <h3>Quick Actions</h3>
             <div className="quick-actions">
-              <button className="action-btn">
-                <span className="icon">👥</span>
-                <span>Send Group Message</span>
+              <button className="action-button">
+                <Plus size={16} />
+                Add New Volunteer
               </button>
-              <button className="action-btn">
-                <span className="icon">📊</span>
-                <span>View Volunteer Report</span>
+              <button className="action-button">
+                <Mail size={16} />
+                Send Group Message
               </button>
-              <button className="action-btn">
-                <span className="icon">🔔</span>
-                <span>Send Reminders</span>
+              <button className="action-button">
+                <Download size={16} />
+                Export Volunteer List
               </button>
-              <button className="action-btn">
-                <span className="icon">📤</span>
-                <span>Export Volunteer List</span>
-              </button>
-            </div>
-          </div>
-          
-          <div className="sidebar-section">
-            <h3>Upcoming Shifts</h3>
-            <div className="upcoming-shifts">
-              <div className="shift-item">
-                <div className="shift-date">
-                  <div className="date-day">15</div>
-                  <div className="date-month">Mar</div>
-                </div>
-                <div className="shift-details">
-                  <h4>Medical Team</h4>
-                  <p>Health Camp Setup</p>
-                  <span className="shift-time">9:00 AM - 5:00 PM</span>
-                </div>
-              </div>
-              
-              <div className="shift-item">
-                <div className="shift-date">
-                  <div className="date-day">18</div>
-                  <div className="date-month">Mar</div>
-                </div>
-                <div className="shift-details">
-                  <h4>Logistics Team</h4>
-                  <p>Supply Distribution</p>
-                  <span className="shift-time">8:00 AM - 4:00 PM</span>
-                </div>
-              </div>
             </div>
           </div>
         </div>

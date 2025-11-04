@@ -9,8 +9,9 @@ import * as volunteerManagementService from '../services/volunteerManagementServ
  */
 export const useVolunteerManagement = (projectId, options = {}) => {
   const [volunteers, setVolunteers] = useState([]);
-  const [roles, setRoles] = useState([]);
-  const [stats, setStats] = useState(null);
+  const [availability, setAvailability] = useState(null);
+  const [skills, setSkills] = useState([]);
+  const [performance, setPerformance] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   
@@ -22,275 +23,166 @@ export const useVolunteerManagement = (projectId, options = {}) => {
     setError(null);
     
     try {
-      const data = await volunteerManagementService.getProjectVolunteers(projectId, fetchOptions);
-      setVolunteers(data.volunteers || data);
+      const data = await volunteerManagementService.getVolunteers(projectId, fetchOptions);
+      setVolunteers(data);
     } catch (err) {
-      setError(err.message || 'Failed to fetch project volunteers');
-      console.error('Error fetching project volunteers:', err);
+      setError(err.message);
     } finally {
       setLoading(false);
     }
   }, [projectId]);
   
-  // Fetch volunteer by ID
-  const fetchVolunteerById = useCallback(async (volunteerId) => {
+  // Create a new volunteer
+  const createVolunteer = useCallback(async (volunteerData) => {
+    if (!projectId) return;
+    
+    setLoading(true);
+    setError(null);
+    
     try {
-      const volunteer = await volunteerManagementService.getVolunteerById(volunteerId);
-      return volunteer;
-    } catch (err) {
-      console.error('Error fetching volunteer:', err);
-      throw err;
-    }
-  }, []);
-  
-  // Add volunteer to project
-  const addVolunteer = useCallback(async (volunteerData) => {
-    try {
-      const newVolunteer = await volunteerManagementService.addVolunteer(projectId, volunteerData);
-      setVolunteers(prev => [newVolunteer, ...prev]);
+      const newVolunteer = await volunteerManagementService.createVolunteer(projectId, volunteerData);
+      setVolunteers(prev => [...prev, newVolunteer]);
       return newVolunteer;
     } catch (err) {
-      console.error('Error adding volunteer:', err);
+      setError(err.message);
       throw err;
+    } finally {
+      setLoading(false);
     }
   }, [projectId]);
   
-  // Update volunteer
+  // Update a volunteer
   const updateVolunteer = useCallback(async (volunteerId, volunteerData) => {
+    if (!projectId) return;
+    
+    setLoading(true);
+    setError(null);
+    
     try {
-      const updatedVolunteer = await volunteerManagementService.updateVolunteer(volunteerId, volunteerData);
-      setVolunteers(prev => 
-        prev.map(volunteer => 
-          volunteer.id === volunteerId ? { ...volunteer, ...updatedVolunteer } : volunteer
-        )
-      );
+      const updatedVolunteer = await volunteerManagementService.updateVolunteer(projectId, volunteerId, volunteerData);
+      setVolunteers(prev => prev.map(volunteer => 
+        volunteer.id === volunteerId ? updatedVolunteer : volunteer
+      ));
       return updatedVolunteer;
     } catch (err) {
-      console.error('Error updating volunteer:', err);
+      setError(err.message);
       throw err;
+    } finally {
+      setLoading(false);
     }
-  }, []);
+  }, [projectId]);
   
-  // Remove volunteer from project
-  const removeVolunteer = useCallback(async (volunteerId) => {
+  // Delete a volunteer
+  const deleteVolunteer = useCallback(async (volunteerId) => {
+    if (!projectId) return;
+    
+    setLoading(true);
+    setError(null);
+    
     try {
-      await volunteerManagementService.removeVolunteer(volunteerId);
+      await volunteerManagementService.deleteVolunteer(projectId, volunteerId);
       setVolunteers(prev => prev.filter(volunteer => volunteer.id !== volunteerId));
     } catch (err) {
-      console.error('Error removing volunteer:', err);
+      setError(err.message);
       throw err;
-    }
-  }, []);
-  
-  // Fetch volunteer roles
-  const fetchRoles = useCallback(async () => {
-    if (!projectId) return;
-    
-    try {
-      const data = await volunteerManagementService.getVolunteerRoles(projectId);
-      setRoles(data.roles || data);
-    } catch (err) {
-      console.error('Error fetching volunteer roles:', err);
+    } finally {
+      setLoading(false);
     }
   }, [projectId]);
-  
-  // Create volunteer role
-  const createRole = useCallback(async (roleData) => {
-    try {
-      const newRole = await volunteerManagementService.createVolunteerRole(projectId, roleData);
-      setRoles(prev => [newRole, ...prev]);
-      return newRole;
-    } catch (err) {
-      console.error('Error creating volunteer role:', err);
-      throw err;
-    }
-  }, [projectId]);
-  
-  // Update volunteer role
-  const updateRole = useCallback(async (roleId, roleData) => {
-    try {
-      const updatedRole = await volunteerManagementService.updateVolunteerRole(roleId, roleData);
-      setRoles(prev => 
-        prev.map(role => 
-          role.id === roleId ? { ...role, ...updatedRole } : role
-        )
-      );
-      return updatedRole;
-    } catch (err) {
-      console.error('Error updating volunteer role:', err);
-      throw err;
-    }
-  }, []);
-  
-  // Delete volunteer role
-  const deleteRole = useCallback(async (roleId) => {
-    try {
-      await volunteerManagementService.deleteVolunteerRole(roleId);
-      setRoles(prev => prev.filter(role => role.id !== roleId));
-    } catch (err) {
-      console.error('Error deleting volunteer role:', err);
-      throw err;
-    }
-  }, []);
   
   // Assign volunteer to task
-  const assignVolunteer = useCallback(async (volunteerId, assignmentData) => {
-    try {
-      const assignment = await volunteerManagementService.assignVolunteer(volunteerId, assignmentData);
-      return assignment;
-    } catch (err) {
-      console.error('Error assigning volunteer:', err);
-      throw err;
-    }
-  }, []);
-  
-  // Unassign volunteer from task
-  const unassignVolunteer = useCallback(async (assignmentId) => {
-    try {
-      const unassignment = await volunteerManagementService.unassignVolunteer(assignmentId);
-      return unassignment;
-    } catch (err) {
-      console.error('Error unassigning volunteer:', err);
-      throw err;
-    }
-  }, []);
-  
-  // Set volunteer availability
-  const setVolunteerAvailability = useCallback(async (volunteerId, availabilityData) => {
-    try {
-      const availability = await volunteerManagementService.setVolunteerAvailability(volunteerId, availabilityData);
-      return availability;
-    } catch (err) {
-      console.error('Error setting volunteer availability:', err);
-      throw err;
-    }
-  }, []);
-  
-  // Add volunteer skill
-  const addVolunteerSkill = useCallback(async (volunteerId, skillData) => {
-    try {
-      const skill = await volunteerManagementService.addVolunteerSkill(volunteerId, skillData);
-      return skill;
-    } catch (err) {
-      console.error('Error adding volunteer skill:', err);
-      throw err;
-    }
-  }, []);
-  
-  // Remove volunteer skill
-  const removeVolunteerSkill = useCallback(async (skillId) => {
-    try {
-      await volunteerManagementService.removeVolunteerSkill(skillId);
-    } catch (err) {
-      console.error('Error removing volunteer skill:', err);
-      throw err;
-    }
-  }, []);
-  
-  // Log volunteer hours
-  const logVolunteerHours = useCallback(async (volunteerId, hoursData) => {
-    try {
-      const hours = await volunteerManagementService.logVolunteerHours(volunteerId, hoursData);
-      return hours;
-    } catch (err) {
-      console.error('Error logging volunteer hours:', err);
-      throw err;
-    }
-  }, []);
-  
-  // Add volunteer certification
-  const addVolunteerCertification = useCallback(async (volunteerId, certificationData) => {
-    try {
-      const certification = await volunteerManagementService.addVolunteerCertification(volunteerId, certificationData);
-      return certification;
-    } catch (err) {
-      console.error('Error adding volunteer certification:', err);
-      throw err;
-    }
-  }, []);
-  
-  // Remove volunteer certification
-  const removeVolunteerCertification = useCallback(async (certificationId) => {
-    try {
-      await volunteerManagementService.removeVolunteerCertification(certificationId);
-    } catch (err) {
-      console.error('Error removing volunteer certification:', err);
-      throw err;
-    }
-  }, []);
-  
-  // Fetch volunteer statistics
-  const fetchStats = useCallback(async () => {
+  const assignVolunteer = useCallback(async (assignmentData) => {
     if (!projectId) return;
     
+    setLoading(true);
+    setError(null);
+    
     try {
-      const statistics = await volunteerManagementService.getVolunteerStats(projectId);
-      setStats(statistics);
+      const assignment = await volunteerManagementService.assignVolunteer(projectId, assignmentData);
+      return assignment;
     } catch (err) {
-      console.error('Error fetching volunteer statistics:', err);
+      setError(err.message);
+      throw err;
+    } finally {
+      setLoading(false);
     }
   }, [projectId]);
   
-  // Send volunteer notification
-  const sendVolunteerNotification = useCallback(async (volunteerId, notificationData) => {
+  // Fetch volunteer availability
+  const fetchAvailability = useCallback(async (fetchOptions = {}) => {
+    if (!projectId) return;
+    
+    setLoading(true);
+    setError(null);
+    
     try {
-      const notification = await volunteerManagementService.sendVolunteerNotification(volunteerId, notificationData);
-      return notification;
+      const data = await volunteerManagementService.getVolunteerAvailability(projectId, fetchOptions);
+      setAvailability(data);
     } catch (err) {
-      console.error('Error sending volunteer notification:', err);
-      throw err;
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
-  }, []);
+  }, [projectId]);
   
-  // Refresh all data
-  const refresh = useCallback(() => {
-    fetchVolunteers(options);
-    fetchRoles();
-    fetchStats();
-  }, [
-    fetchVolunteers,
-    fetchRoles,
-    fetchStats,
-    options
-  ]);
+  // Fetch volunteer skills
+  const fetchSkills = useCallback(async (fetchOptions = {}) => {
+    if (!projectId) return;
+    
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const data = await volunteerManagementService.getVolunteerSkills(projectId, fetchOptions);
+      setSkills(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [projectId]);
+  
+  // Fetch volunteer performance
+  const fetchPerformance = useCallback(async (fetchOptions = {}) => {
+    if (!projectId) return;
+    
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const data = await volunteerManagementService.getVolunteerPerformance(projectId, fetchOptions);
+      setPerformance(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [projectId]);
   
   // Initialize data
   useEffect(() => {
     if (projectId) {
-      refresh();
+      fetchVolunteers();
+      fetchAvailability();
+      fetchSkills();
+      fetchPerformance();
     }
-  }, [projectId, refresh]);
+  }, [projectId, fetchVolunteers, fetchAvailability, fetchSkills, fetchPerformance]);
   
   return {
-    // State
     volunteers,
-    roles,
-    stats,
+    availability,
+    skills,
+    performance,
     loading,
     error,
-    
-    // Actions
     fetchVolunteers,
-    fetchVolunteerById,
-    addVolunteer,
+    createVolunteer,
     updateVolunteer,
-    removeVolunteer,
-    fetchRoles,
-    createRole,
-    updateRole,
-    deleteRole,
+    deleteVolunteer,
     assignVolunteer,
-    unassignVolunteer,
-    setVolunteerAvailability,
-    addVolunteerSkill,
-    removeVolunteerSkill,
-    logVolunteerHours,
-    addVolunteerCertification,
-    removeVolunteerCertification,
-    fetchStats,
-    sendVolunteerNotification,
-    refresh
+    fetchAvailability,
+    fetchSkills,
+    fetchPerformance
   };
 };
-
-export default useVolunteerManagement;

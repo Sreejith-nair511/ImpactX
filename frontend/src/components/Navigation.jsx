@@ -29,7 +29,8 @@ const Navigation = ({ darkMode, toggleDarkMode }) => {
         { path: '/project-insights', label: 'Project Insights' },
         { path: '/community-engagement', label: 'Community Engagement' },
         { path: '/resource-management', label: 'Resource Management' },
-        { path: '/volunteer-management', label: 'Volunteer Management' }
+        { path: '/volunteer-management', label: 'Volunteer Management' },
+        { path: '/reporting', label: 'Reporting' }
       ]
     },
     {
