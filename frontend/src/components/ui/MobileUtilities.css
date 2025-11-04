@@ -1,0 +1,232 @@
+/* Mobile Utilities for Enhanced Mobile Experience */
+
+/* Touch target sizing for better mobile interaction */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Mobile-friendly button sizing */
+.btn-mobile {
+  min-height: 48px;
+  min-width: 48px;
+  padding: 12px 16px;
+  font-size: 16px; /* Prevents iOS zoom on input */
+}
+
+/* Mobile-friendly input fields */
+.input-mobile {
+  min-height: 48px;
+  font-size: 16px; /* Prevents iOS zoom on input */
+  padding: 12px 16px;
+}
+
+/* Mobile-friendly form elements */
+.form-group-mobile {
+  margin-bottom: 24px;
+}
+
+.form-group-mobile label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 16px;
+}
+
+/* Mobile navigation enhancements */
+.mobile-nav-item {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+}
+
+/* Mobile card enhancements */
+.card-mobile {
+  margin-bottom: 16px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.card-mobile-header {
+  padding: 16px;
+}
+
+.card-mobile-content {
+  padding: 0 16px 16px;
+}
+
+/* Mobile grid adjustments */
+.grid-mobile {
+  display: grid;
+  gap: 16px;
+}
+
+.grid-mobile-1 {
+  grid-template-columns: 1fr;
+}
+
+.grid-mobile-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* Mobile spacing utilities */
+.m-mobile-0 { margin: 0; }
+.m-mobile-1 { margin: 4px; }
+.m-mobile-2 { margin: 8px; }
+.m-mobile-3 { margin: 12px; }
+.m-mobile-4 { margin: 16px; }
+.m-mobile-5 { margin: 20px; }
+.m-mobile-6 { margin: 24px; }
+
+.mt-mobile-0 { margin-top: 0; }
+.mt-mobile-1 { margin-top: 4px; }
+.mt-mobile-2 { margin-top: 8px; }
+.mt-mobile-3 { margin-top: 12px; }
+.mt-mobile-4 { margin-top: 16px; }
+.mt-mobile-5 { margin-top: 20px; }
+.mt-mobile-6 { margin-top: 24px; }
+
+.mb-mobile-0 { margin-bottom: 0; }
+.mb-mobile-1 { margin-bottom: 4px; }
+.mb-mobile-2 { margin-bottom: 8px; }
+.mb-mobile-3 { margin-bottom: 12px; }
+.mb-mobile-4 { margin-bottom: 16px; }
+.mb-mobile-5 { margin-bottom: 20px; }
+.mb-mobile-6 { margin-bottom: 24px; }
+
+.p-mobile-0 { padding: 0; }
+.p-mobile-1 { padding: 4px; }
+.p-mobile-2 { padding: 8px; }
+.p-mobile-3 { padding: 12px; }
+.p-mobile-4 { padding: 16px; }
+.p-mobile-5 { padding: 20px; }
+.p-mobile-6 { padding: 24px; }
+
+.pt-mobile-0 { padding-top: 0; }
+.pt-mobile-1 { padding-top: 4px; }
+.pt-mobile-2 { padding-top: 8px; }
+.pt-mobile-3 { padding-top: 12px; }
+.pt-mobile-4 { padding-top: 16px; }
+.pt-mobile-5 { padding-top: 20px; }
+.pt-mobile-6 { padding-top: 24px; }
+
+.pb-mobile-0 { padding-bottom: 0; }
+.pb-mobile-1 { padding-bottom: 4px; }
+.pb-mobile-2 { padding-bottom: 8px; }
+.pb-mobile-3 { padding-bottom: 12px; }
+.pb-mobile-4 { padding-bottom: 16px; }
+.pb-mobile-5 { padding-bottom: 20px; }
+.pb-mobile-6 { padding-bottom: 24px; }
+
+/* Mobile typography adjustments */
+.text-mobile-sm { font-size: 14px; }
+.text-mobile-base { font-size: 16px; }
+.text-mobile-lg { font-size: 18px; }
+.text-mobile-xl { font-size: 20px; }
+.text-mobile-2xl { font-size: 24px; }
+.text-mobile-3xl { font-size: 30px; }
+
+/* Mobile flex utilities */
+.flex-mobile-column {
+  flex-direction: column;
+}
+
+.flex-mobile-column-reverse {
+  flex-direction: column-reverse;
+}
+
+.flex-mobile-wrap {
+  flex-wrap: wrap;
+}
+
+.gap-mobile-1 { gap: 4px; }
+.gap-mobile-2 { gap: 8px; }
+.gap-mobile-3 { gap: 12px; }
+.gap-mobile-4 { gap: 16px; }
+.gap-mobile-5 { gap: 20px; }
+.gap-mobile-6 { gap: 24px; }
+
+/* Mobile visibility utilities */
+.mobile-only {
+  display: none;
+}
+
+.desktop-only {
+  display: block;
+}
+
+/* Focus indicators for mobile accessibility */
+.focus-mobile {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+.focus-mobile:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Mobile-specific interaction states */
+.hover-mobile:hover {
+  background-color: var(--background-hover);
+}
+
+.active-mobile:active {
+  background-color: var(--background-active);
+}
+
+/* Responsive utilities for specific breakpoints */
+@media (max-width: 768px) {
+  .mobile-only {
+    display: block;
+  }
+  
+  .desktop-only {
+    display: none;
+  }
+  
+  .text-mobile-center {
+    text-align: center;
+  }
+  
+  .text-mobile-left {
+    text-align: left;
+  }
+  
+  .text-mobile-right {
+    text-align: right;
+  }
+}
+
+@media (max-width: 480px) {
+  .grid-mobile-2 {
+    grid-template-columns: 1fr;
+  }
+  
+  .hide-on-mobile-small {
+    display: none;
+  }
+}
+
+/* High contrast mode support for mobile */
+@media (prefers-contrast: high) {
+  .mobile-high-contrast {
+    border: 2px solid white;
+  }
+}
+
+/* Reduced motion support for mobile */
+@media (prefers-reduced-motion: reduce) {
+  .mobile-reduced-motion {
+    transition: none;
+  }
+  
+  .mobile-reduced-motion * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

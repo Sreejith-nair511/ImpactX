@@ -1,0 +1,241 @@
+/* Mobile Navigation Component Styles */
+
+.mobile-navigation {
+  display: none;
+}
+
+/* Mobile menu toggle button */
+.mobile-nav-toggle {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 1000;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.mobile-nav-toggle:hover {
+  background: var(--primary-color-dark);
+}
+
+/* Mobile menu overlay */
+.mobile-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1001;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Mobile menu container */
+.mobile-menu-container {
+  width: 90%;
+  max-width: 320px;
+  height: 100%;
+  background: var(--background-card);
+  display: flex;
+  flex-direction: column;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Mobile menu header */
+.mobile-menu-header {
+  padding: 20px 16px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mobile-menu-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mobile-user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.mobile-user-avatar-placeholder {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--primary-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile-user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-user-name {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.mobile-user-email {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.mobile-menu-close {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  padding: 8px;
+  border-radius: 50%;
+}
+
+.mobile-menu-close:hover {
+  background: var(--background-hover);
+  color: var(--text-primary);
+}
+
+/* Mobile menu content */
+.mobile-menu-content {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.mobile-nav-section {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.mobile-nav-items {
+  display: flex;
+  flex-direction: column;
+  padding: 8px 0;
+}
+
+.mobile-nav-item {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: var(--text-primary);
+  transition: background 0.2s ease;
+}
+
+.mobile-nav-item:hover {
+  background: var(--background-hover);
+}
+
+.mobile-nav-icon {
+  flex-shrink: 0;
+}
+
+.mobile-nav-label {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.mobile-nav-section-footer {
+  margin-top: auto;
+  border-top: 1px solid var(--border-color);
+  padding: 8px 0;
+}
+
+/* Mobile bottom navigation */
+.mobile-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--background-card);
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 0;
+  z-index: 1000;
+}
+
+.mobile-bottom-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  transition: all 0.2s ease;
+}
+
+.mobile-bottom-nav-item:hover {
+  color: var(--primary-color);
+  background: var(--background-hover);
+}
+
+.mobile-bottom-nav-item.active {
+  color: var(--primary-color);
+}
+
+.mobile-nav-label-small {
+  font-size: 10px;
+}
+
+/* Responsive styles - show on mobile only */
+@media (max-width: 768px) {
+  .mobile-navigation {
+    display: block;
+  }
+  
+  /* Hide desktop navigation on mobile */
+  .desktop-navigation {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .mobile-menu-container {
+    width: 100%;
+    max-width: none;
+  }
+  
+  .mobile-nav-label {
+    font-size: 18px;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .mobile-menu-container {
+    background: var(--background-card-dark);
+  }
+  
+  .mobile-menu-header {
+    border-color: var(--border-color-dark);
+  }
+  
+  .mobile-nav-section-footer {
+    border-color: var(--border-color-dark);
+  }
+  
+  .mobile-bottom-nav {
+    background: var(--background-card-dark);
+    border-color: var(--border-color-dark);
+  }
+}

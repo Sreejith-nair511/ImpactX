@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Navigation from './components/Navigation';
+import MobileEnhancements from './components/ui/MobileEnhancements';
 import Home from './pages/Home';
 import Campaigns from './pages/Campaigns';
 import Donate from './pages/Donate';
@@ -102,6 +103,7 @@ function App() {
 
   return (
     <Router>
+      <MobileEnhancements />
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
         <header className="bg-gradient-to-r from-blue-700 to-indigo-800 text-white shadow-lg">
           <div className="container mx-auto px-4">
