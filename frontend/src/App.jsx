@@ -70,6 +70,8 @@ import ResourceManagementPage from './pages/ResourceManagementPage';
 import VolunteerManagementPage from './pages/VolunteerManagementPage';
 // Reporting
 import ReportingPage from './pages/ReportingPage';
+// Tabs Demo
+import TabsDemoPage from './pages/TabsDemoPage';
 // File Sharing
 import FileSharingPage from './pages/FileSharingPage';
 
@@ -187,6 +189,8 @@ function App() {
             <Route path="/volunteer-management" element={<VolunteerManagementPage />} />
             {/* Reporting */}
             <Route path="/reporting" element={<ReportingPage />} />
+            {/* Tabs Demo */}
+            <Route path="/tabs-demo" element={<TabsDemoPage />} />
           </Routes>
         </main>
         

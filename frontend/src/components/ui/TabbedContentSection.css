@@ -1,0 +1,32 @@
+.tabbed-content-section {
+  margin-bottom: 2rem;
+}
+
+.tabbed-content-header {
+  margin-bottom: 1.5rem;
+}
+
+.tabbed-content-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .tabbed-content-header {
+    margin-bottom: 1rem;
+  }
+  
+  .tabbed-content-header h2 {
+    font-size: 1.25rem;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .tabbed-content-header h2 {
+    color: var(--text-primary-dark);
+  }
+}

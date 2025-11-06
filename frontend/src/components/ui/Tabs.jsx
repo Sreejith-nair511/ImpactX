@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Tabs = ({ 
   tabs, 
@@ -9,10 +9,31 @@ const Tabs = ({
   onTabChange,
   className = '',
   tabClassName = '',
-  contentClassName = ''
+  contentClassName = '',
+  lazyLoad = false,
+  persistState = false,
+  animationType = 'slide',
+  onTabHover,
+  disabledTabs = []
 }) => {
-  const [activeTab, setActiveTab] = useState(defaultActiveTab);
+  const [activeTab, setActiveTab] = useState(() => {
+    // Check for persisted state if enabled
+    if (persistState && typeof window !== 'undefined') {
+      const savedTab = localStorage.getItem(`tabs-active-tab-${window.location.pathname}`);
+      return savedTab ? parseInt(savedTab, 10) : defaultActiveTab;
+    }
+    return defaultActiveTab;
+  });
+  const [hoveredTab, setHoveredTab] = useState(null);
+  const [loadedTabs, setLoadedTabs] = useState(new Set([defaultActiveTab]));
   const tabRefs = useRef([]);
+
+  // Save active tab to localStorage if persistState is enabled
+  useEffect(() => {
+    if (persistState && typeof window !== 'undefined') {
+      localStorage.setItem(`tabs-active-tab-${window.location.pathname}`, activeTab.toString());
+    }
+  }, [activeTab, persistState]);
 
   // Handle keyboard navigation
   const handleKeyDown = (e, index) => {
@@ -39,6 +60,24 @@ const Tabs = ({
       if (onTabChange) onTabChange(newIndex);
     }
   };
+
+  // Handle tab hover
+  const handleTabHover = useCallback((index) => {
+    if (disabledTabs.includes(index)) return;
+    setHoveredTab(index);
+    if (onTabHover) onTabHover(index);
+  }, [disabledTabs, onTabHover]);
+
+  // Handle tab leave
+  const handleTabLeave = useCallback(() => {
+    setHoveredTab(null);
+  }, []);
+
+  // Load tab content when activated
+  useEffect(() => {
+    if (!lazyLoad) return;
+    setLoadedTabs(prev => new Set(prev).add(activeTab));
+  }, [activeTab, lazyLoad]);
 
   // Variant styles
   const variantStyles = {
@@ -72,6 +111,7 @@ const Tabs = ({
 
   // Handle tab change
   const handleTabClick = (index) => {
+    if (disabledTabs.includes(index)) return;
     setActiveTab(index);
     if (onTabChange) onTabChange(index);
   };
@@ -87,7 +127,9 @@ const Tabs = ({
               key={index}
               onClick={() => handleTabClick(index)}
               onKeyDown={(e) => handleKeyDown(e, index)}
-              className={`${styles.tab} ${tabClassName} ${
+              onMouseEnter={() => handleTabHover(index)}
+              onMouseLeave={handleTabLeave}
+              className={`${styles.tab} ${tabClassName} ${disabledTabs.includes(index) ? 'opacity-50 cursor-not-allowed' : ''} ${
                 activeTab === index
                   ? styles.tabActive
                   : styles.tabInactive
@@ -97,6 +139,7 @@ const Tabs = ({
               tabIndex={activeTab === index ? 0 : -1}
               id={`tab-${index}`}
               aria-controls={`panel-${index}`}
+              disabled={disabledTabs.includes(index)}
             >
               <span className="flex items-center">
                 {tab.icon && (
@@ -123,25 +166,55 @@ const Tabs = ({
       
       {/* Tab Content */}
       <div className={`p-4 md:p-6 ${contentClassName}`}>
-        {tabs.map((tab, index) => (
-          <div
-            key={index}
-            id={`panel-${index}`}
-            role="tabpanel"
-            aria-labelledby={`tab-${index}`}
-            hidden={activeTab !== index}
-          >
-            {activeTab === index && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.2 }}
+        <AnimatePresence mode="wait">
+          {tabs.map((tab, index) => {
+            // Determine if content should be rendered
+            const shouldRenderContent = !lazyLoad || loadedTabs.has(index) || activeTab === index;
+            
+            // Animation variants
+            const animationVariants = {
+              slide: {
+                initial: { opacity: 0, x: activeTab > index ? -20 : 20 },
+                animate: { opacity: 1, x: 0 },
+                exit: { opacity: 0, x: activeTab > index ? 20 : -20 }
+              },
+              fade: {
+                initial: { opacity: 0 },
+                animate: { opacity: 1 },
+                exit: { opacity: 0 }
+              },
+              scale: {
+                initial: { opacity: 0, scale: 0.95 },
+                animate: { opacity: 1, scale: 1 },
+                exit: { opacity: 0, scale: 0.95 }
+              }
+            };
+            
+            const selectedVariant = animationVariants[animationType] || animationVariants.slide;
+            
+            return (
+              <div
+                key={index}
+                id={`panel-${index}`}
+                role="tabpanel"
+                aria-labelledby={`tab-${index}`}
+                hidden={activeTab !== index}
               >
-                {tab.content}
-              </motion.div>
-            )}
-          </div>
-        ))}
+                {shouldRenderContent && activeTab === index && (
+                  <motion.div
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    variants={selectedVariant}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {tab.content}
+                  </motion.div>
+                )}
+              </div>
+            );
+          })}
+        </AnimatePresence>
       </div>
     </div>
   );

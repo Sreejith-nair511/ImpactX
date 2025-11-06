@@ -30,7 +30,8 @@ const Navigation = ({ darkMode, toggleDarkMode }) => {
         { path: '/community-engagement', label: 'Community Engagement' },
         { path: '/resource-management', label: 'Resource Management' },
         { path: '/volunteer-management', label: 'Volunteer Management' },
-        { path: '/reporting', label: 'Reporting' }
+        { path: '/reporting', label: 'Reporting' },
+        { path: '/tabs-demo', label: 'Tabs Demo' }
       ]
     },
     {
