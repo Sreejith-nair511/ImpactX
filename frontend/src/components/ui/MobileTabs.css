@@ -1,0 +1,100 @@
+.mobile-tabs {
+  width: 100%;
+}
+
+/* Hide scrollbar for WebKit browsers */
+.mobile-tabs .scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for Firefox */
+.mobile-tabs .scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Tab list container */
+.mobile-tabs > div:first-child {
+  position: relative;
+}
+
+/* Scroll indicators */
+.mobile-tabs .absolute {
+  pointer-events: auto;
+}
+
+.mobile-tabs .absolute button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.mobile-tabs .absolute button:hover {
+  opacity: 0.8;
+}
+
+/* Tab buttons */
+.mobile-tabs button {
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-tabs button:focus {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Content area */
+.mobile-tabs-content {
+  min-height: 200px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .mobile-tabs {
+    padding: 0;
+  }
+  
+  .mobile-tabs .flex.overflow-x-auto {
+    padding: 0.5rem 1rem;
+    margin: 0 -1rem;
+  }
+  
+  .mobile-tabs button {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+  
+  .mobile-tabs .absolute {
+    width: 2.5rem;
+  }
+  
+  .mobile-tabs .absolute button {
+    padding: 0.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .mobile-tabs button {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8125rem;
+  }
+  
+  .mobile-tabs .absolute {
+    width: 2rem;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .mobile-tabs .absolute button {
+    background: linear-gradient(to right, var(--background-card-dark), transparent);
+  }
+  
+  .mobile-tabs .absolute:last-child {
+    background: linear-gradient(to left, var(--background-card-dark), transparent);
+  }
+}
