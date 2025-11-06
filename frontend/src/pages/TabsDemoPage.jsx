@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useTabs } from '../hooks/useTabs';
 import TabbedContentSection from '../components/ui/TabbedContentSection';
 import MobileTabs from '../components/ui/MobileTabs';
+import AnimatedTabsDemo from '../components/ui/AnimatedTabsDemo';
 import { User, Settings, Bell, HelpCircle, Database, BarChart2, Shield, Globe } from 'lucide-react';
 
 const TabsDemoPage = () => {
@@ -240,6 +241,15 @@ const TabsDemoPage = () => {
               tabs={profileTabs}
               defaultActiveTab={0}
             />
+          </div>
+        </div>
+        
+        <div className="tabbed-content-section">
+          <div className="tabbed-content-header">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white">Animated Tabs Demo</h2>
+          </div>
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 overflow-hidden">
+            <AnimatedTabsDemo tabs={profileTabs} />
           </div>
         </div>
       </div>
