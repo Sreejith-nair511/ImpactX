@@ -1,12 +1,13 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { useThemePreferences } from '../hooks/usePreferences';
+import { useTheme } from './ThemeProvider';
+import ThemeSwitcher from './ui/ThemeSwitcher';
 
-const Navigation = ({ darkMode, toggleDarkMode }) => {
+const Navigation = () => {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const { theme, updateTheme } = useThemePreferences();
+  const { theme, toggleTheme, highContrast, fontSize } = useTheme();
   
   // Group navigation items by category
   const navCategories = [
@@ -90,6 +91,21 @@ const Navigation = ({ darkMode, toggleDarkMode }) => {
         { path: '/careers', label: 'Careers' },
         { path: '/press', label: 'Press' }
       ]
+    },
+    {
+      title: "UI Components",
+      items: [
+        { path: '/notifications', label: 'Notifications' },
+        { path: '/loading', label: 'Loading Spinners' },
+        { path: '/confirmation', label: 'Confirmations' },
+        { path: '/tooltips', label: 'Tooltips' },
+        { path: '/progress', label: 'Progress Bars' },
+        { path: '/modals', label: 'Modals' },
+        { path: '/badges', label: 'Badges' },
+        { path: '/cards', label: 'Cards' },
+        { path: '/data-table', label: 'Data Tables' },
+        { path: '/forms', label: 'Forms' }
+      ]
     }
   ];
 
@@ -128,7 +144,7 @@ const Navigation = ({ darkMode, toggleDarkMode }) => {
           
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1">
-            {navItems.slice(0, 8).map((item) => (
+            {navItems.slice(0, 6).map((item) => (
               <Link
                 key={item.path}
                 to={item.path}
@@ -143,14 +159,14 @@ const Navigation = ({ darkMode, toggleDarkMode }) => {
             ))}
             
             {/* More button for additional items */}
-            {navItems.length > 8 && (
+            {navItems.length > 6 && (
               <div className="relative group">
                 <button className="px-3 py-2 rounded-lg text-sm font-medium text-blue-100 hover:bg-blue-600 hover:text-white transition-all duration-300">
                   More
                 </button>
                 <div className="absolute right-0 mt-2 w-64 bg-white text-blue-700 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
                   <div className="py-2">
-                    {navItems.slice(8).map((item) => (
+                    {navItems.slice(6).map((item) => (
                       <Link
                         key={item.path}
                         to={item.path}
@@ -166,41 +182,21 @@ const Navigation = ({ darkMode, toggleDarkMode }) => {
               </div>
             )}
             
-            {/* Dark mode toggle for desktop */}
-            <button
-              onClick={toggleDarkMode}
-              className={`p-2 rounded-full ml-2 ${
-                darkMode 
-                  ? 'bg-gray-700 text-yellow-300' 
-                  : 'bg-gray-200 text-gray-700'
-              }`}
-              aria-label="Toggle dark mode"
-            >
-              {darkMode ? (
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
-                </svg>
-              ) : (
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
-                </svg>
-              )}
-            </button>
+            {/* Theme switcher for desktop */}
+            <div className="ml-2">
+              <ThemeSwitcher showLabels={false} className="flex items-center" />
+            </div>
           </div>
           
           {/* Mobile Navigation */}
           <div className="md:hidden flex items-center">
-            {/* Dark mode toggle for mobile */}
+            {/* Theme toggle for mobile */}
             <button
-              onClick={toggleDarkMode}
-              className={`p-2 rounded-full mr-2 ${
-                darkMode 
-                  ? 'bg-gray-700 text-yellow-300' 
-                  : 'bg-gray-200 text-gray-700'
-              }`}
-              aria-label="Toggle dark mode"
+              onClick={toggleTheme}
+              className="p-2 rounded-full mr-2 bg-gray-700 text-yellow-300"
+              aria-label="Toggle theme"
             >
-              {darkMode ? (
+              {theme === 'dark' ? (
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
                 </svg>
@@ -238,6 +234,11 @@ const Navigation = ({ darkMode, toggleDarkMode }) => {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full px-3 py-2 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-300"
               />
+            </div>
+            
+            {/* Theme Switcher */}
+            <div className="px-4 py-2">
+              <ThemeSwitcher showLabels={true} />
             </div>
             
             {/* Navigation Categories */}

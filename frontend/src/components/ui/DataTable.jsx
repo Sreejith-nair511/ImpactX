@@ -1,72 +1,82 @@
 import React, { useState, useMemo } from 'react';
-import { motion } from 'framer-motion';
-import { 
-  ChevronDownIcon, 
-  ChevronUpIcon, 
-  ArrowsUpDownIcon,
-  FunnelIcon,
-  ArrowDownTrayIcon
-} from '@heroicons/react/24/outline';
+import { ChevronUp, ChevronDown, Search, Filter } from 'lucide-react';
 
+/**
+ * Data Table Component
+ * A customizable data table with sorting, filtering, and pagination
+ */
 const DataTable = ({ 
-  data, 
-  columns, 
-  searchable = false, 
-  sortable = true, 
-  pagination = true, 
-  rowsPerPage = 10,
-  exportable = false
+  data = [],
+  columns = [],
+  searchable = true,
+  sortable = true,
+  pagination = true,
+  itemsPerPage = 10,
+  className = ''
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
   const [currentPage, setCurrentPage] = useState(1);
-  const [columnFilters, setColumnFilters] = useState({});
+  const [filters, setFilters] = useState({});
 
-  // Filter data based on search term and column filters
-  const filteredData = useMemo(() => {
-    return data.filter(row => {
-      // Apply search filter
-      const matchesSearch = searchable
-        ? columns.some(column =>
-            row[column.key]?.toString().toLowerCase().includes(searchTerm.toLowerCase())
-          )
-        : true;
-      
-      // Apply column filters
-      const matchesColumnFilters = Object.keys(columnFilters).every(key => {
-        if (!columnFilters[key]) return true;
-        const value = row[key]?.toString().toLowerCase();
-        return value?.includes(columnFilters[key].toLowerCase());
-      });
-      
-      return matchesSearch && matchesColumnFilters;
-    });
-  }, [data, columns, searchTerm, columnFilters, searchable]);
-
-  // Sort data
-  const sortedData = useMemo(() => {
-    if (!sortable || !sortConfig.key) return filteredData;
+  // Filter and sort data
+  const processedData = useMemo(() => {
+    let filteredData = [...data];
     
-    return [...filteredData].sort((a, b) => {
-      if (a[sortConfig.key] < b[sortConfig.key]) {
-        return sortConfig.direction === 'asc' ? -1 : 1;
+    // Apply search filter
+    if (searchTerm) {
+      filteredData = filteredData.filter(item => 
+        columns.some(column => {
+          const value = item[column.key];
+          return value && value.toString().toLowerCase().includes(searchTerm.toLowerCase());
+        })
+      );
+    }
+    
+    // Apply column filters
+    Object.keys(filters).forEach(key => {
+      if (filters[key]) {
+        filteredData = filteredData.filter(item => {
+          const value = item[key];
+          return value && value.toString().toLowerCase().includes(filters[key].toLowerCase());
+        });
       }
-      if (a[sortConfig.key] > b[sortConfig.key]) {
-        return sortConfig.direction === 'asc' ? 1 : -1;
-      }
-      return 0;
     });
-  }, [filteredData, sortable, sortConfig]);
+    
+    // Apply sorting
+    if (sortConfig.key && sortable) {
+      filteredData.sort((a, b) => {
+        const aValue = a[sortConfig.key];
+        const bValue = b[sortConfig.key];
+        
+        if (aValue < bValue) {
+          return sortConfig.direction === 'asc' ? -1 : 1;
+        }
+        if (aValue > bValue) {
+          return sortConfig.direction === 'asc' ? 1 : -1;
+        }
+        return 0;
+      });
+    }
+    
+    return filteredData;
+  }, [data, columns, searchTerm, sortConfig, filters, sortable]);
 
-  // Paginate data
-  const totalPages = Math.ceil(sortedData.length / rowsPerPage);
-  const paginatedData = pagination
-    ? sortedData.slice(
-        (currentPage - 1) * rowsPerPage,
-        currentPage * rowsPerPage
-      )
-    : sortedData;
+  // Pagination
+  const paginatedData = useMemo(() => {
+    if (!pagination) return processedData;
+    
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return processedData.slice(startIndex, endIndex);
+  }, [processedData, currentPage, itemsPerPage, pagination]);
 
+  // Total pages
+  const totalPages = useMemo(() => {
+    return Math.ceil(processedData.length / itemsPerPage);
+  }, [processedData.length, itemsPerPage]);
+
+  // Handle sorting
   const handleSort = (key) => {
     if (!sortable) return;
     
@@ -77,165 +87,167 @@ const DataTable = ({
     setSortConfig({ key, direction });
   };
 
-  const handlePageChange = (page) => {
-    setCurrentPage(Math.max(1, Math.min(page, totalPages)));
-  };
-
-  const handleColumnFilter = (key, value) => {
-    setColumnFilters(prev => ({
+  // Handle filter change
+  const handleFilterChange = (key, value) => {
+    setFilters(prev => ({
       ...prev,
       [key]: value
     }));
+    setCurrentPage(1); // Reset to first page when filtering
   };
 
-  const getSortIcon = (columnKey) => {
-    if (!sortConfig.key || sortConfig.key !== columnKey) {
-      return <ArrowsUpDownIcon className="w-4 h-4 ml-1" />;
+  // Reset filters
+  const resetFilters = () => {
+    setSearchTerm('');
+    setFilters({});
+    setCurrentPage(1);
+  };
+
+  // Render cell content
+  const renderCell = (item, column) => {
+    const value = item[column.key];
+    
+    if (column.render) {
+      return column.render(value, item);
     }
-    return sortConfig.direction === 'asc' 
-      ? <ChevronUpIcon className="w-4 h-4 ml-1" /> 
-      : <ChevronDownIcon className="w-4 h-4 ml-1" />;
-  };
-
-  // Export data to CSV
-  const exportToCSV = () => {
-    if (!exportable || sortedData.length === 0) return;
     
-    const headers = columns.map(col => col.label).join(',');
-    const rows = sortedData.map(row => 
-      columns.map(col => {
-        const value = row[col.key];
-        // Escape commas and quotes in values
-        if (typeof value === 'string' && (value.includes(',') || value.includes('"'))) {
-          return `"${value.replace(/"/g, '""')}"`;
-        }
-        return value;
-      }).join(',')
-    );
+    if (value === null || value === undefined) {
+      return '-';
+    }
     
-    const csvContent = [headers, ...rows].join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.setAttribute('href', url);
-    link.setAttribute('download', 'data-export.csv');
-    link.style.visibility = 'hidden';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    return value.toString();
   };
 
   return (
-    <div className="bg-gray-800 rounded-xl shadow-lg overflow-hidden">
-      {/* Toolbar */}
-      <div className="flex justify-between items-center p-4 border-b border-gray-700">
-        {/* Search Bar */}
-        {searchable && (
-          <div className="flex-1 max-w-md">
-            <input
-              type="text"
-              placeholder="Search..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full px-4 py-2 bg-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
-          </div>
-        )}
-        
-        {/* Export Button */}
-        {exportable && (
-          <button
-            onClick={exportToCSV}
-            className="flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
-          >
-            <ArrowDownTrayIcon className="w-4 h-4 mr-2" />
-            Export CSV
-          </button>
-        )}
-      </div>
-
-      {/* Column Filters */}
-      <div className="border-b border-gray-700 p-2 bg-gray-750">
-        <div className="flex flex-wrap gap-2">
-          {columns.map(column => (
-            <div key={`filter-${column.key}`} className="flex items-center">
-              <FunnelIcon className="w-4 h-4 text-gray-400 mr-1" />
+    <div className={`bg-white dark:bg-gray-800 rounded-xl shadow ${className}`}>
+      {/* Table Controls */}
+      <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          {searchable && (
+            <div className="relative flex-1 max-w-md">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <Search className="h-5 w-5 text-gray-400" />
+              </div>
               <input
                 type="text"
-                placeholder={column.label}
-                value={columnFilters[column.key] || ''}
-                onChange={(e) => handleColumnFilter(column.key, e.target.value)}
-                className="px-2 py-1 bg-gray-700 text-white rounded text-xs focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                placeholder="Search..."
+                value={searchTerm}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                  setCurrentPage(1);
+                }}
+                className="block w-full pl-10 pr-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+          )}
+          
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={resetFilters}
+              className="px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg flex items-center"
+            >
+              <Filter className="h-4 w-4 mr-1" />
+              Reset Filters
+            </button>
+          </div>
+        </div>
+        
+        {/* Column Filters */}
+        <div className="mt-4 flex flex-wrap gap-2">
+          {columns.filter(col => col.filterable).map(column => (
+            <div key={column.key} className="flex-1 min-w-[200px]">
+              <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
+                {column.title}
+              </label>
+              <input
+                type="text"
+                placeholder={`Filter by ${column.title}`}
+                value={filters[column.key] || ''}
+                onChange={(e) => handleFilterChange(column.key, e.target.value)}
+                className="w-full px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
           ))}
         </div>
       </div>
-
+      
       {/* Table */}
       <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead>
-            <tr className="border-b border-gray-700">
+        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+          <thead className="bg-gray-50 dark:bg-gray-700">
+            <tr>
               {columns.map((column) => (
                 <th
                   key={column.key}
-                  onClick={() => handleSort(column.key)}
-                  className={`px-6 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider cursor-pointer ${
-                    sortable ? 'hover:text-white' : ''
+                  scope="col"
+                  className={`px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider ${
+                    sortable && column.sortable !== false 
+                      ? 'cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600' 
+                      : ''
                   }`}
+                  onClick={() => sortable && column.sortable !== false && handleSort(column.key)}
                 >
                   <div className="flex items-center">
-                    {column.label}
-                    {sortable && getSortIcon(column.key)}
+                    <span>{column.title}</span>
+                    {sortable && column.sortable !== false && sortConfig.key === column.key && (
+                      <span className="ml-1">
+                        {sortConfig.direction === 'asc' ? (
+                          <ChevronUp className="h-4 w-4" />
+                        ) : (
+                          <ChevronDown className="h-4 w-4" />
+                        )}
+                      </span>
+                    )}
                   </div>
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-700">
+          <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
             {paginatedData.length > 0 ? (
-              paginatedData.map((row, index) => (
-                <motion.tr
-                  key={index}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.2, delay: index * 0.05 }}
-                  className="hover:bg-gray-750"
+              paginatedData.map((item, index) => (
+                <tr 
+                  key={item.id || index} 
+                  className="hover:bg-gray-50 dark:hover:bg-gray-700"
                 >
                   {columns.map((column) => (
-                    <td key={`${index}-${column.key}`} className="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
-                      {column.render ? column.render(row[column.key], row) : row[column.key]}
+                    <td 
+                      key={column.key} 
+                      className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-300"
+                    >
+                      {renderCell(item, column)}
                     </td>
                   ))}
-                </motion.tr>
+                </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={columns.length} className="px-6 py-4 text-center text-gray-500">
-                  No data available
+                <td 
+                  colSpan={columns.length} 
+                  className="px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400"
+                >
+                  No data found
                 </td>
               </tr>
             )}
           </tbody>
         </table>
       </div>
-
+      
       {/* Pagination */}
       {pagination && totalPages > 1 && (
-        <div className="px-6 py-4 border-t border-gray-700 flex items-center justify-between">
-          <div className="text-sm text-gray-400">
-            Showing {Math.min((currentPage - 1) * rowsPerPage + 1, sortedData.length)} to{' '}
-            {Math.min(currentPage * rowsPerPage, sortedData.length)} of {sortedData.length} entries
+        <div className="px-6 py-3 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between">
+          <div className="text-sm text-gray-700 dark:text-gray-300">
+            Showing {Math.min((currentPage - 1) * itemsPerPage + 1, processedData.length)} to {Math.min(currentPage * itemsPerPage, processedData.length)} of {processedData.length} results
           </div>
           <div className="flex space-x-2">
             <button
-              onClick={() => handlePageChange(currentPage - 1)}
+              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}
-              className={`px-3 py-1 rounded-md text-sm ${
+              className={`px-3 py-1 text-sm rounded ${
                 currentPage === 1
-                  ? 'bg-gray-700 text-gray-500 cursor-not-allowed'
-                  : 'bg-gray-700 text-white hover:bg-gray-600'
+                  ? 'bg-gray-100 dark:bg-gray-700 text-gray-400 cursor-not-allowed'
+                  : 'bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-500'
               }`}
             >
               Previous
@@ -243,28 +255,45 @@ const DataTable = ({
             
             {[...Array(totalPages)].map((_, i) => {
               const page = i + 1;
-              return (
-                <button
-                  key={page}
-                  onClick={() => handlePageChange(page)}
-                  className={`px-3 py-1 rounded-md text-sm ${
-                    currentPage === page
-                      ? 'bg-indigo-600 text-white'
-                      : 'bg-gray-700 text-white hover:bg-gray-600'
-                  }`}
-                >
-                  {page}
-                </button>
-              );
+              // Only show first, last, current, and nearby pages
+              if (page === 1 || page === totalPages || (page >= currentPage - 1 && page <= currentPage + 1)) {
+                return (
+                  <button
+                    key={page}
+                    onClick={() => setCurrentPage(page)}
+                    className={`px-3 py-1 text-sm rounded ${
+                      currentPage === page
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-500'
+                    }`}
+                  >
+                    {page}
+                  </button>
+                );
+              }
+              
+              // Show ellipsis for skipped pages
+              if (page === currentPage - 2 || page === currentPage + 2) {
+                return (
+                  <span 
+                    key={page} 
+                    className="px-3 py-1 text-sm text-gray-500 dark:text-gray-400"
+                  >
+                    ...
+                  </span>
+                );
+              }
+              
+              return null;
             })}
             
             <button
-              onClick={() => handlePageChange(currentPage + 1)}
+              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
               disabled={currentPage === totalPages}
-              className={`px-3 py-1 rounded-md text-sm ${
+              className={`px-3 py-1 text-sm rounded ${
                 currentPage === totalPages
-                  ? 'bg-gray-700 text-gray-500 cursor-not-allowed'
-                  : 'bg-gray-700 text-white hover:bg-gray-600'
+                  ? 'bg-gray-100 dark:bg-gray-700 text-gray-400 cursor-not-allowed'
+                  : 'bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-500'
               }`}
             >
               Next
